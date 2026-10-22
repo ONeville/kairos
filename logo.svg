@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- App tile: deep navy squircle -->
+  <rect x="64" y="64" width="896" height="896" rx="200" ry="200" fill="#14213D"/>
+  <!-- Broken ring: gap at upper-right (the opening / opportune moment) -->
+  <path d="M 720 330
+           A 300 300 0 1 1 512 212"
+        fill="none" stroke="#E76F3C" stroke-width="80" stroke-linecap="round"/>
+  <!-- Forward-leaning K escaping through the gap -->
+  <g stroke="#E76F3C" stroke-width="96" stroke-linecap="round" fill="none">
+    <!-- vertical stem -->
+    <line x1="400" y1="360" x2="400" y2="700"/>
+    <!-- upper diagonal -->
+    <line x1="400" y1="530" x2="640" y2="360"/>
+    <!-- escaping diagonal, breaching the ring, tapered tip -->
+    <line x1="400" y1="530" x2="760" y2="196"/>
+  </g>
+</svg>

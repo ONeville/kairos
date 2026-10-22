@@ -1,0 +1,2618 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kairos · The Appointed Time · Worship Presentation Software</title>
+    <link rel="icon" type="image/jpeg" href="icon.ico" />
+<meta name="description" content="A reliable, fast, volunteer-friendly worship presentation app. Proportional service scheduling, dual-display projection, confidence stage monitor, zero-subscription pricing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap">
+<style>
+/* Layout concept: A calm, time-ruled page matching Kairos sanctuary software.
+   Light = Cool Slate, Dark = Sanctuary Dark. */
+:root {
+  --bg: #F4F6F8;
+  --surface: #FFFFFF;
+  --surface-alt: #F8FAFC;
+  --ink: #1D2530;
+  --muted: #5B6675;
+  --line: #DDE3EA;
+  --line-strong: #CBD3DD;
+  --accent: #2F5FC4;
+  --on-accent: #FFFFFF;
+  --accent-soft: #EBF1FC;
+  --live: #B42318;
+  --on-live: #FFFFFF;
+  --live-soft: #FEE4E2;
+  --err: #B42318;
+  --ok: #05603A;
+  --ok-soft: #D1FADF;
+  --warn: #7A4A00;
+  --warn-soft: #FEF0C7;
+  --display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --radius: 10px;
+  --wrap: 1160px;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121418;
+    --surface: #1A1D24;
+    --surface-alt: #21252E;
+    --ink: #E6E8EC;
+    --muted: #9AA3AF;
+    --line: #2A2F3A;
+    --line-strong: #3D4452;
+    --accent: #E0A458;
+    --on-accent: #14161A;
+    --accent-soft: #2E2820;
+    --live: #D92D20;
+    --on-live: #FFFFFF;
+    --live-soft: #381A18;
+    --err: #F97066;
+    --ok: #6CE9A6;
+    --ok-soft: #12372A;
+    --warn: #FEC84B;
+    --warn-soft: #4A3A12;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #121418;
+  --surface: #1A1D24;
+  --surface-alt: #21252E;
+  --ink: #E6E8EC;
+  --muted: #9AA3AF;
+  --line: #2A2F3A;
+  --line-strong: #3D4452;
+  --accent: #E0A458;
+  --on-accent: #14161A;
+  --accent-soft: #2E2820;
+  --live: #D92D20;
+  --on-live: #FFFFFF;
+  --live-soft: #381A18;
+  --err: #F97066;
+  --ok: #6CE9A6;
+  --ok-soft: #12372A;
+  --warn: #FEC84B;
+  --warn-soft: #4A3A12;
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #F4F6F8;
+  --surface: #FFFFFF;
+  --surface-alt: #F8FAFC;
+  --ink: #1D2530;
+  --muted: #5B6675;
+  --line: #DDE3EA;
+  --line-strong: #CBD3DD;
+  --accent: #2F5FC4;
+  --on-accent: #FFFFFF;
+  --accent-soft: #EBF1FC;
+  --live: #B42318;
+  --on-live: #FFFFFF;
+  --live-soft: #FEE4E2;
+  --err: #B42318;
+  --ok: #05603A;
+  --ok-soft: #D1FADF;
+  --warn: #7A4A00;
+  --warn-soft: #FEF0C7;
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 16px/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  background: var(--bg);
+  z-index: 50;
+}
+
+img, svg { max-width: 100%; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+h1, h2, h3, h4 { margin: 0; font-family: var(--display); font-weight: 500; line-height: 1.15; text-wrap: balance; }
+h1 { font-size: clamp(2.5rem, 5.5vw, 4.3rem); letter-spacing: -.02em; }
+h2 { font-size: clamp(1.85rem, 3.5vw, 2.7rem); letter-spacing: -.01em; }
+h3 { font-size: 1.35rem; }
+h4 { font-size: 1.1rem; }
+p { margin: 0; }
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+.eyebrow {
+  font: 600 .78rem/1.4 var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.lede {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 65ch;
+  line-height: 1.6;
+}
+
+.band { padding-block: clamp(56px, 8vw, 96px); }
+.band-alt { background: var(--surface); border-block: 1px solid var(--line); }
+section[id] { scroll-margin-top: 76px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font: 600 0.95rem/1 var(--sans);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease, filter .15s ease;
+}
+
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-quiet { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-quiet:hover { border-color: var(--muted); background: var(--surface-alt); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Sticky Header */
+.top {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 40;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+}
+
+.top .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 66px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--display);
+  font-size: 1.65rem;
+  font-weight: 500;
+  letter-spacing: -.01em;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav a.link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .93rem;
+  font-weight: 500;
+  transition: color .12s ease;
+}
+
+.nav a.link:hover { color: var(--ink); }
+.nav .btn { min-height: 38px; padding: 0 16px; font-size: .9rem; }
+@media (max-width: 900px) { .nav a.link { display: none; } }
+
+/* Hero */
+.hero {
+  padding-top: clamp(36px, 6vw, 68px);
+  padding-bottom: clamp(40px, 6vw, 76px);
+}
+
+.hero-copy {
+  display: grid;
+  gap: 18px;
+  max-width: 820px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.hero-note {
+  font-size: .92rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Specs Strip */
+.specs-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.spec-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font: 500 .8rem/1.2 var(--mono);
+  color: var(--ink);
+}
+
+.spec-pill svg { color: var(--accent); }
+
+/* Interactive Hero Mockup */
+.stage { margin-top: clamp(28px, 4vw, 48px); }
+.stage-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.stage-cap { font-size: .88rem; color: var(--muted); }
+.stage-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+
+.themes { display: flex; flex-wrap: wrap; gap: 6px; }
+.themes button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: 500 .84rem/1 var(--sans);
+  cursor: pointer;
+}
+
+.themes button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* App Mock container */
+.app {
+  --a-bg: #14161A;
+  --a-surface: #1D2026;
+  --a-alt: #181B20;
+  --a-text: #E6E8EC;
+  --a-muted: #9AA3AF;
+  --a-border: #2A2F37;
+  --a-strong: #3A414B;
+  --a-accent: #E0A458;
+  --a-onaccent: #14161A;
+  --a-accenttext: #F2C078;
+  --a-live: #D92D20;
+  --a-onlive: #FFFFFF;
+  --a-nextbg: #4A3A12;
+  --a-nextfg: #FEC84B;
+  --a-readybg: #12372A;
+  --a-readyfg: #6CE9A6;
+  --a-sel: #232830;
+  --a-rad: 8px;
+  --a-radb: 8px;
+  --a-font: 'DM Sans';
+  background: var(--a-bg);
+  color: var(--a-text);
+  font-family: var(--a-font), system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.4;
+  border: 1px solid var(--a-border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px -28px rgba(0,0,0,.5);
+}
+
+.app[data-app="slate"] {
+  --a-bg: #F4F6F8;
+  --a-surface: #FFFFFF;
+  --a-alt: #F8FAFC;
+  --a-text: #1D2530;
+  --a-muted: #5B6675;
+  --a-border: #DDE3EA;
+  --a-strong: #CBD3DD;
+  --a-accent: #2F5FC4;
+  --a-onaccent: #FFFFFF;
+  --a-accenttext: #1F4AA8;
+  --a-live: #B42318;
+  --a-onlive: #FFFFFF;
+  --a-nextbg: #FEF0C7;
+  --a-nextfg: #7A4A00;
+  --a-readybg: #D1FADF;
+  --a-readyfg: #05603A;
+  --a-sel: #EEF3FD;
+  --a-rad: 8px;
+  --a-radb: 8px;
+  --a-font: 'IBM Plex Sans';
+}
+
+.app[data-app="bold"] {
+  --a-bg: #101820;
+  --a-surface: #1A2530;
+  --a-alt: #16202A;
+  --a-text: #F5F7FA;
+  --a-muted: #A9B6C4;
+  --a-border: #243342;
+  --a-strong: #2EC4B6;
+  --a-accent: #2EC4B6;
+  --a-onaccent: #08201E;
+  --a-accenttext: #2EC4B6;
+  --a-live: #FF6B6B;
+  --a-onlive: #101820;
+  --a-nextbg: #2EC4B6;
+  --a-nextfg: #08201E;
+  --a-readybg: #2EC4B6;
+  --a-readyfg: #08201E;
+  --a-sel: #243342;
+  --a-rad: 12px;
+  --a-radb: 999px;
+  --a-font: 'Outfit';
+}
+
+.app-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--a-alt);
+  border-bottom: 1px solid var(--a-border);
+}
+
+.app-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.app-brand b { font-size: 15px; color: var(--a-accenttext); }
+.app-brand span { font-size: 12px; color: var(--a-muted); }
+
+.app-search {
+  flex: 1;
+  max-width: 440px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 10px;
+  background: var(--a-surface);
+  border: 1px solid var(--a-strong);
+  border-radius: var(--a-rad);
+}
+
+.app-search:focus-within {
+  outline: 2px solid var(--a-accent);
+  outline-offset: 1px;
+}
+
+.app-search svg { flex: none; color: var(--a-muted); }
+.app-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--a-text);
+  font: inherit;
+  font-size: 13px;
+}
+
+.app-search input::placeholder { color: var(--a-muted); }
+
+.app-hud-pills {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--a-muted);
+}
+
+.hud-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--a-surface);
+  border: 1px solid var(--a-border);
+}
+
+.hud-pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--a-readyfg); }
+
+/* Switcher Panes Layout */
+.app-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) auto minmax(0, 1fr);
+  background: var(--a-border);
+  gap: 1px;
+}
+
+.pane {
+  background: var(--a-surface);
+  padding: 12px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pane-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 24px;
+  font-size: 12px;
+  color: var(--a-muted);
+}
+
+.tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  padding: 2px 7px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.tag-live { background: var(--a-live); color: var(--a-onlive); }
+.tag-prev { background: var(--a-nextbg); color: var(--a-nextfg); }
+
+.list { display: flex; flex-direction: column; gap: 4px; }
+.res, .part {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--a-rad);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.res:hover, .part:hover { background: var(--a-sel); }
+.res[aria-pressed="true"] { background: var(--a-sel); border-color: var(--a-accent); }
+
+.res .b {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background: var(--a-alt);
+  color: var(--a-accenttext);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.res .t { display: block; font-size: 12.5px; font-weight: 600; }
+.res .s { display: block; font-size: 11px; color: var(--a-muted); }
+
+.sec-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--a-muted);
+  text-transform: uppercase;
+}
+
+.part { align-items: flex-start; border-color: var(--a-border); }
+.part .l {
+  flex: none;
+  min-width: 44px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 4px;
+  border-radius: 5px;
+  background: var(--a-alt);
+  color: var(--a-accenttext);
+}
+
+.part .chord { font-family: var(--mono); color: var(--a-nextfg); font-size: 10.5px; font-weight: 600; display: block; }
+.part .x {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--a-text);
+  white-space: pre-line;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.part.is-live { border-color: var(--a-live); }
+.part.is-prev { border-color: var(--a-nextfg); background: var(--a-sel); }
+
+/* Slide Box */
+.slide {
+  aspect-ratio: 16/9;
+  container-type: inline-size;
+  border-radius: calc(var(--a-rad) - 2px);
+  overflow: hidden;
+  position: relative;
+  background: #000;
+}
+
+.slide-in {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3cqw;
+  padding: 7cqw;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 5cqw;
+  line-height: 1.35;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0,0,0,.6);
+  position: relative;
+  z-index: 2;
+}
+
+.slide-in div { white-space: pre-line; }
+.slide-in small { font-size: .72em; opacity: .88; font-family: var(--mono); }
+#liveSlide { outline: 2px solid var(--a-live); }
+
+/* Confidence Stage Display inside Live box when toggled */
+.stage-monitor-view {
+  height: 100%;
+  background: #000000;
+  color: #FFFFFF;
+  padding: 5cqw;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 2cqw;
+  text-align: left;
+  font-family: var(--mono);
+}
+
+.sm-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 3.5cqw;
+  color: #FEC84B;
+  border-bottom: 1px solid #333;
+  padding-bottom: 1cqw;
+}
+
+.sm-now {
+  font-size: 4.8cqw;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #FFFFFF;
+  padding-top: 1cqw;
+}
+
+.sm-chords {
+  color: #6CE9A6;
+  font-size: 3.8cqw;
+  letter-spacing: .08em;
+  margin-bottom: 2px;
+}
+
+.sm-next {
+  font-size: 3.2cqw;
+  color: #9AA3AF;
+  border-top: 1px solid #222;
+  padding-top: 2cqw;
+  display: flex;
+  gap: 4px;
+}
+
+.sm-next span { color: #E0A458; }
+
+.cap { font-size: 11.5px; color: var(--a-muted); }
+
+/* Center Take Column */
+.take-col {
+  background: var(--a-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  gap: 8px;
+}
+
+.take {
+  min-width: 78px;
+  min-height: 52px;
+  border: 0;
+  border-radius: var(--a-radb);
+  background: var(--a-live);
+  color: var(--a-onlive) !important;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 12px;
+  box-shadow: 0 4px 12px rgba(180,35,24,.35);
+  transition: transform .08s ease, filter .15s ease;
+}
+
+.take:hover { filter: brightness(1.12); transform: scale(1.02); }
+.take:active { transform: scale(0.97); }
+.take small {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  opacity: .95;
+  background: rgba(0,0,0,.25);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* Panic Toggles above Live pane */
+.panic-bar {
+  display: flex;
+  gap: 4px;
+}
+
+.panic-btn {
+  flex: 1;
+  padding: 3px 6px;
+  font: 700 10.5px/1 var(--mono);
+  background: var(--a-alt);
+  color: var(--a-muted);
+  border: 1px solid var(--a-border);
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.panic-btn:hover { color: var(--a-text); border-color: var(--a-strong); }
+.panic-btn[data-active="true"] { background: var(--a-live); color: #fff; border-color: var(--a-live); }
+
+/* Stage Monitor Mode Toggle */
+.out-toggle {
+  display: inline-flex;
+  border: 1px solid var(--a-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.out-toggle button {
+  background: var(--a-alt);
+  border: 0;
+  color: var(--a-muted);
+  font: 600 10px/1.2 var(--mono);
+  padding: 3px 6px;
+  cursor: pointer;
+}
+
+.out-toggle button[aria-pressed="true"] {
+  background: var(--a-accent);
+  color: var(--a-onaccent);
+}
+
+/* Scheduler Ribbon */
+.ribbon-box {
+  padding: 12px 14px 10px;
+  background: var(--a-surface);
+  border-top: 1px solid var(--a-border);
+}
+
+.ribbon-h {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--a-muted);
+  margin-bottom: 8px;
+}
+
+.ribbon-h b { color: var(--a-readyfg); font-weight: 600; }
+.ribbon {
+  position: relative;
+  display: flex;
+  gap: 3px;
+  height: 38px;
+}
+
+.blk {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border: 1px solid var(--a-strong);
+  border-radius: var(--a-rad);
+  background: var(--a-alt);
+  color: var(--a-text);
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+button.blk { cursor: pointer; text-align: left; }
+button.blk:hover { border-color: var(--a-accent); }
+.blk.is-live {
+  background: var(--a-live);
+  border-color: var(--a-live);
+  color: var(--a-onlive);
+}
+
+.playhead {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 2px;
+  background: var(--a-live);
+  pointer-events: none;
+}
+
+.ribbon-t {
+  display: flex;
+  justify-content: space-between;
+  font: 400 11px/1 var(--mono);
+  color: var(--a-muted);
+  margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .app-body { grid-template-columns: minmax(0, 1fr); }
+  .take-col { padding: 10px; }
+  .take { width: 100%; flex-direction: row; gap: 10px; }
+  .app-hud-pills { display: none; }
+}
+
+/* Features Grid */
+.head {
+  display: grid;
+  gap: 12px;
+  margin-bottom: clamp(32px, 5vw, 56px);
+  max-width: 760px;
+}
+
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 4vw, 48px);
+}
+
+.feat-card {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 16px;
+  padding: 24px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: transform .12s ease, border-color .12s ease;
+}
+
+.feat-card:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-2px);
+}
+
+.feat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feat-card h3 { font-size: 1.25rem; margin-bottom: 6px; }
+.feat-card p { color: var(--muted); font-size: .95rem; line-height: 1.55; }
+.feat-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.feat-tag {
+  font: 500 .75rem/1 var(--mono);
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+@media (max-width: 800px) {
+  .feat-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Detailed User Manual (How it Works) */
+.manual-wrap {
+  display: grid;
+  gap: 24px;
+}
+
+.manual-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+}
+
+.manual-tab {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--muted);
+  font: 600 .9rem/1 var(--sans);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all .15s ease;
+}
+
+.manual-tab:hover {
+  color: var(--ink);
+  border-color: var(--muted);
+}
+
+.manual-tab[aria-selected="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.manual-pane {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(24px, 4vw, 40px);
+  display: grid;
+  gap: 24px;
+}
+
+.manual-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  counter-reset: manual-step;
+}
+
+.manual-step {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  background: var(--surface-alt);
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.manual-step .step-num {
+  font: 700 .8rem/1 var(--mono);
+  letter-spacing: .1em;
+  color: var(--accent);
+}
+
+.manual-step h4 { font-size: 1.15rem; }
+.manual-step p { color: var(--muted); font-size: .92rem; }
+
+@media (max-width: 860px) {
+  .manual-steps { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Keyboard Shortcut Matrix */
+.kbd-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .92rem;
+}
+
+.kbd-table th, .kbd-table td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.kbd-table th {
+  font: 600 .75rem/1.2 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  background: var(--surface-alt);
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 7px;
+  font: 600 .8rem/1 var(--mono);
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.15);
+  margin-right: 4px;
+}
+
+/* Theme Cards */
+.tcards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.tcard { display: grid; gap: 14px; }
+.sw {
+  height: 132px;
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 8px;
+  border: 1px solid var(--line);
+}
+
+.sw i { display: block; border-radius: 6px; }
+.sw .col { display: grid; gap: 8px; grid-template-rows: auto 1fr auto; }
+.sw .bar { height: 14px; border-radius: 6px; }
+.sw .box { border-radius: 6px; }
+.sw .chip { width: 44px; height: 14px; border-radius: 7px; }
+.tcard p { color: var(--muted); font-size: .95rem; }
+@media (max-width: 760px) { .tcards { grid-template-columns: minmax(0, 1fr); } }
+
+/* Pricing */
+.pricing {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(24px, 5vw, 56px);
+  align-items: start;
+}
+
+.plan {
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 28px;
+  display: grid;
+  gap: 18px;
+}
+
+.plan .nm {
+  font: 600 .8rem/1 var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.amount {
+  font: 500 2.6rem/1.05 var(--display);
+  letter-spacing: -.01em;
+}
+
+.amount.pending { font-size: 1.7rem; }
+.plan ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.plan li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; font-size: .95rem; }
+.plan li svg { color: var(--ok); margin-top: 3px; }
+
+.vt { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+caption { text-align: left; font-family: var(--display); font-size: 1.35rem; padding-bottom: 12px; }
+th, td { text-align: left; padding: 14px 12px 14px 0; border-top: 1px solid var(--line); vertical-align: top; }
+th { font: 500 .75rem/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+td.mono { font-family: var(--mono); }
+.cost-free { color: var(--ok); font-weight: 600; }
+.cost-paid { color: var(--warn); font-weight: 600; }
+.fine { font-size: .88rem; color: var(--muted); margin-top: 12px; }
+@media (max-width: 860px) { .pricing { grid-template-columns: minmax(0, 1fr); } }
+
+/* Request Form */
+.req {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+
+form { display: grid; gap: 18px; }
+.row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.field { display: grid; gap: 6px; }
+label, .legend { font-weight: 600; font-size: .95rem; }
+.hint { font-weight: 400; color: var(--muted); }
+
+input[type=text], input[type=email], select, textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: 400 1rem/1.4 var(--sans);
+}
+
+textarea { min-height: 110px; resize: vertical; }
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+[aria-invalid="true"] { border-color: var(--err) !important; }
+.err { color: var(--err); font-size: .88rem; min-height: 0; }
+.err:empty { display: none; }
+fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 8px; }
+
+.opts { display: flex; flex-wrap: wrap; gap: 10px; }
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.opt input { width: 17px; height: 17px; accent-color: var(--accent); margin: 0; }
+.consent { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: .92rem; }
+.consent input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent); flex: none; }
+
+.notice {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--warn);
+  background: var(--warn-soft);
+  color: var(--ink);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.notice.ok { border-left-color: var(--ok); background: var(--ok-soft); }
+.notice.bad { border-left-color: var(--err); }
+.notice pre {
+  margin: 0;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: 400 .85rem/1.5 var(--mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.next { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+.next li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; }
+.next .n {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 600 .85rem/1 var(--mono);
+}
+
+.next b { display: block; }
+.next span { color: var(--muted); font-size: .92rem; }
+
+@media (max-width: 860px) { .req { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 520px) { .row2 { grid-template-columns: minmax(0, 1fr); } }
+
+/* FAQ */
+.faq { max-width: 860px; }
+details { border-top: 1px solid var(--line); }
+details:last-child { border-bottom: 1px solid var(--line); }
+summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  min-height: 56px;
+  padding: 14px 0;
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+summary::-webkit-details-marker { display: none; }
+summary::after {
+  content: "+";
+  font: 400 1.4rem/1 var(--mono);
+  color: var(--muted);
+  flex: none;
+}
+
+details[open] summary::after { content: "\2212"; }
+details p { color: var(--muted); padding: 0 40px 18px 0; max-width: 72ch; font-size: .97rem; }
+
+/* Footer */
+footer { border-top: 1px solid var(--line); padding-block: 48px; background: var(--bg); }
+.foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.verse { font: italic 500 1.25rem/1.4 var(--display); max-width: 44ch; }
+.verse small {
+  display: block;
+  margin-top: 8px;
+  font: 400 .85rem/1.4 var(--mono);
+  font-style: normal;
+  color: var(--muted);
+  letter-spacing: .04em;
+}
+
+.foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; justify-items: start; }
+.foot a { color: var(--muted); text-decoration: none; font-size: .95rem; }
+.foot a:hover { color: var(--ink); }
+.legal { margin-top: 32px; font-size: .88rem; color: var(--muted); }
+@media (max-width: 760px) { .foot { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Kairos, back to top">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="34" height="34" aria-hidden="true" style="flex:none"><rect x="64" y="64" width="896" height="896" rx="200" ry="200" fill="#14213D"/><path d="M 720 330 A 300 300 0 1 1 512 212" fill="none" stroke="#E76F3C" stroke-width="80" stroke-linecap="round"/><g stroke="#E76F3C" stroke-width="96" stroke-linecap="round" fill="none"><line x1="400" y1="360" x2="400" y2="700"/><line x1="400" y1="530" x2="640" y2="360"/><line x1="400" y1="530" x2="760" y2="196"/></g></svg>
+      Kairos
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="link" href="#features">Features</a>
+      <a class="link" href="#how">How it works</a>
+      <a class="link" href="#manual">Operator guide</a>
+      <a class="link" href="#themes">Themes</a>
+      <a class="link" href="#pricing">Pricing</a>
+      <a class="link" href="#faq">FAQ</a>
+      <a class="btn btn-primary" href="#request">Request access</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- Hero Section with Working App Switcher -->
+<section class="hero band">
+  <div class="wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">Kairos &middot; <span lang="el">καιρός</span> &middot; the appointed time</p>
+      <h1>The right moment, in the right order.</h1>
+      <p class="lede">Fast, reliable presentation software for worship services. Built with dual-window projection, a high-legibility stage confidence monitor, instant offline scripture search, and zero subscriptions.</p>
+      
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#request">Request access</a>
+        <a class="btn btn-quiet" href="#how">See how it works</a>
+        <a class="btn btn-quiet" href="#manual">Open user manual</a>
+      </div>
+
+      <div class="specs-bar" aria-label="Key technical specifications">
+        <span class="spec-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          Windows &amp; macOS Native
+        </span>
+        <span class="spec-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+          Dual-Output (Sanctuary + Stage)
+        </span>
+        <span class="spec-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14a9 3 0 0 0 18 0V5"></path><path d="M3 12a9 3 0 0 0 18 0"></path></svg>
+          100% Offline &amp; Private
+        </span>
+        <span class="spec-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"></path></svg>
+          LAN Web Remote (QR Pairing)
+        </span>
+      </div>
+    </div>
+
+    <!-- Live Working Sample -->
+    <div class="stage">
+      <div class="stage-bar">
+        <p class="stage-cap">Interactive switcher. Try searching, select a section, press <strong>TAKE</strong> (or hit <code>Space</code>), or test Blackout / Stage display.</p>
+        <div class="stage-controls">
+          <div class="themes" role="group" aria-label="App theme">
+            <button type="button" data-theme-btn="sanctuary" aria-pressed="true">Sanctuary Dark</button>
+            <button type="button" data-theme-btn="slate" aria-pressed="false">Cool Slate</button>
+            <button type="button" data-theme-btn="bold" aria-pressed="false">Ministry Bold</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="app" id="app" data-app="sanctuary">
+        <div class="app-top">
+          <div class="app-brand"><b>Kairos</b><span>Sunday Morning Service</span></div>
+          <label class="app-search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+            <span class="sr">Search songs and verses</span>
+            <input id="appSearch" type="text" placeholder="Search songs and verses (try: holy, john, anchor)" autocomplete="off">
+          </label>
+          <div class="app-hud-pills">
+            <span class="hud-pill"><i></i>Projector: Display 2 (1080p)</span>
+            <span class="hud-pill">Stage: Display 3</span>
+            <span class="hud-pill">LAN Remote: KRS-4892</span>
+          </div>
+        </div>
+
+        <div class="app-body">
+          <!-- Search & Library Panel -->
+          <section class="pane" aria-label="Search and parts panel">
+            <div class="pane-h"><b class="sec-label">Library</b><span>Never touches Live</span></div>
+            <div class="list" id="results"></div>
+            <div class="pane-h" style="margin-top:6px"><b class="sec-label" id="partsKind">Sections</b><span id="partsTitle"></span></div>
+            <div class="list" id="parts"></div>
+          </section>
+
+          <!-- Staged Slide Preview -->
+          <section class="pane" aria-label="Preview">
+            <div class="pane-h">
+              <span class="tag tag-prev">PREVIEW</span>
+              <span>Staged &middot; Private</span>
+            </div>
+            <div class="slide" id="prevSlide">
+              <div class="slide-in"><div></div><small></small></div>
+            </div>
+            <p class="cap" id="prevCap"></p>
+          </section>
+
+          <!-- Take Action Column -->
+          <div class="take-col">
+            <button type="button" class="take" id="take" title="Swap Preview with Live (Shortcut: Space)">
+              <span>TAKE</span>
+              <small>Spacebar</small>
+            </button>
+          </div>
+
+          <!-- Live Output Panel -->
+          <section class="pane" aria-label="Live output">
+            <div class="pane-h">
+              <div style="display:flex;align-items:center;gap:6px">
+                <span class="tag tag-live" id="liveTag">LIVE</span>
+                <div class="panic-bar" role="group" aria-label="Panic controls">
+                  <button type="button" class="panic-btn" id="panicBlack" title="Shortcut: B">B: Black</button>
+                  <button type="button" class="panic-btn" id="panicClear" title="Shortcut: C">C: Clear</button>
+                  <button type="button" class="panic-btn" id="panicLogo" title="Shortcut: L">L: Logo</button>
+                </div>
+              </div>
+              <div class="out-toggle" role="group" aria-label="Output view mode">
+                <button type="button" id="btnModeAudience" aria-pressed="true" title="Sanctuary Projector View">Projector</button>
+                <button type="button" id="btnModeStage" aria-pressed="false" title="Confidence Stage Monitor View">Stage View</button>
+              </div>
+            </div>
+
+            <div class="slide" id="liveSlide">
+              <div class="slide-in" id="liveSlideInner"><div></div><small></small></div>
+              <div class="stage-monitor-view" id="liveStageView" hidden>
+                <div class="sm-top"><span>STAGE CONFIDENCE</span><span id="smClock">10:24 AM</span></div>
+                <div class="sm-now">
+                  <div class="sm-chords" id="smChords">G &middot; C &middot; Em &middot; D</div>
+                  <div id="smCurrent">We lift our voices to the morning light<br>Every heart awake to sing</div>
+                </div>
+                <div class="sm-next">Next: <span id="smNextText">Holy, holy, You are near (Chorus)</span></div>
+              </div>
+            </div>
+            <p class="cap" id="liveCap"></p>
+          </section>
+        </div>
+
+        <!-- Proportional Scheduler Ribbon -->
+        <div class="ribbon-box">
+          <div class="ribbon-h">
+            <b class="sec-label" style="color:var(--a-text)">Schedule</b>
+            <span id="planInfo"></span>
+          </div>
+          <div class="ribbon" id="ribbon"></div>
+          <div class="ribbon-t">
+            <span>10:00 AM (Service Start)</span>
+            <span>Blocks drawn proportionally to planned minutes</span>
+            <span id="endsAt"></span>
+          </div>
+        </div>
+      </div>
+      <p class="sr" id="status" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 Core Feature Pillars -->
+<section class="band band-alt" id="features">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Features</p>
+      <h2>Built for worship, engineered for calm.</h2>
+      <p class="lede">Every detail in Kairos was shaped by actual Sunday mornings in the AV booth: zero desktop flashes, rock-solid offline reliability, spontaneous song navigation, and dual-window confidence.</p>
+    </div>
+
+    <div class="feat-grid">
+      <!-- 1. Dual Display -->
+      <article class="feat-card">
+        <div class="feat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+        </div>
+        <div>
+          <h3>Dual-Output Display Engine</h3>
+          <p>Separate Sanctuary Projection and Stage Confidence Monitor windows. The room sees clean, beautiful lyrics while musicians see chord charts, stage cues, current/next slide previews, and a live service countdown clock.</p>
+          <div class="feat-tags">
+            <span class="feat-tag">Projector Window</span>
+            <span class="feat-tag">Stage Monitor</span>
+            <span class="feat-tag">Hotkey 'F' Fullscreen</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. Volunteer-Safe Switcher -->
+      <article class="feat-card">
+        <div class="feat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="8" height="14" rx="1.5"></rect><rect x="13" y="5" width="8" height="14" rx="1.5"></rect></svg>
+        </div>
+        <div>
+          <h3>Volunteer-Safe 3-Zone Switcher</h3>
+          <p>Search, preview, and project live in three strictly isolated zones. Search queries and preliminary staging never touch the screen until you hit the big Take button or tap the Spacebar.</p>
+          <div class="feat-tags">
+            <span class="feat-tag">No accidental flashes</span>
+            <span class="feat-tag">Spacebar Take</span>
+            <span class="feat-tag">Staged preview</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. Spontaneous Song Navigation -->
+      <article class="feat-card">
+        <div class="feat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+        </div>
+        <div>
+          <h3>Live Song Hotkeys &amp; Arrangements</h3>
+          <p>When the worship leader repeats the chorus unexpectedly, don't scramble through slides. Hit <code>0</code> to instantly jump to the Chorus, or <code>1</code>&ndash;<code>9</code> for numbered verses. Clickable badges stay visible right on the Live pane.</p>
+          <div class="feat-tags">
+            <span class="feat-tag">0: Chorus</span>
+            <span class="feat-tag">1-9: Verses</span>
+            <span class="feat-tag">Arrow step</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. QuickFind & Panic Controls -->
+      <article class="feat-card">
+        <div class="feat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        </div>
+        <div>
+          <h3>Global QuickFind &amp; Panic Toggles</h3>
+          <p>Hit <code>Ctrl+K</code> to summon the instant fuzzy search HUD from anywhere. Press <code>Enter</code> to stage safely, or <code>Shift+Enter</code> for emergency live projection. Instant panic keys for Blackout (<code>B</code>), Clear Text (<code>C</code>), and Logo (<code>L</code>).</p>
+          <div class="feat-tags">
+            <span class="feat-tag">Ctrl+K HUD</span>
+            <span class="feat-tag">B: Blackout</span>
+            <span class="feat-tag">C: Clear</span>
+            <span class="feat-tag">L: Logo</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5. Time-Ruled Scheduler -->
+      <article class="feat-card">
+        <div class="feat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        </div>
+        <div>
+          <h3>Proportional Service Scheduler</h3>
+          <p>Schedule items are drawn to scale based on planned duration. Track elapsed time against your target benediction, duplicate previous services in one click, and save reusable service templates (Sunday, Midweek, Youth).</p>
+          <div class="feat-tags">
+            <span class="feat-tag">Drawn to scale</span>
+            <span class="feat-tag">Duplicate Last Sunday</span>
+            <span class="feat-tag">Target tracking</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6. Offline Library & Scripture -->
+      <article class="feat-card">
+        <div class="feat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14a9 3 0 0 0 18 0V5"></path><path d="M3 12a9 3 0 0 0 18 0"></path></svg>
+        </div>
+        <div>
+          <h3>100% Offline Built-In Library</h3>
+          <p>Preloaded with 1,696+ worship songs and the complete 66-book King James Bible (31,102 verses). Full-text search returns results instantly without internet dependency. Import ChordPro, text files, and automatically detect duplicate songs.</p>
+          <div class="feat-tags">
+            <span class="feat-tag">1,696+ Songs</span>
+            <span class="feat-tag">31,102 Verses</span>
+            <span class="feat-tag">ChordPro import</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 7. LAN Wireless Mobile Remote -->
+      <article class="feat-card">
+        <div class="feat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"></path></svg>
+        </div>
+        <div>
+          <h3>Zero-Install LAN Mobile Remote</h3>
+          <p>Turn any smartphone or iPad into a wireless presentation remote or stage monitor over local Wi-Fi. Scan the QR code to connect instantly over your local Wi-Fi. Secure roles separate Controllers (AV leads) from read-only Viewers (band members).</p>
+          <div class="feat-tags">
+            <span class="feat-tag">No App Store install</span>
+            <span class="feat-tag">QR Code pairing</span>
+            <span class="feat-tag">Role permissions</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 8. Usage Logging & Compliance -->
+      <article class="feat-card">
+        <div class="feat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        </div>
+        <div>
+          <h3>Automated Song Usage &amp; Event Auditing</h3>
+          <p>Every slide that reaches the Live display is logged automatically with timestamp, title, author, and copyright metadata. Export clean CSV reports ready for copyright and licensing reporting in seconds. Daily automatic backup snapshots keep your library secure.</p>
+          <div class="feat-tags">
+            <span class="feat-tag">Automated logging</span>
+            <span class="feat-tag">Usage CSV export</span>
+            <span class="feat-tag">Daily snapshots</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Interactive Detailed User Manual -->
+<section class="band" id="manual">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Operator Guide &middot; User Manual</p>
+      <h2>Master Kairos in under 5 minutes.</h2>
+      <p class="lede">A complete reference guide for AV directors, pastors, and Sunday morning volunteers. Select a topic below to review step-by-step operating workflows.</p>
+    </div>
+
+    <div class="manual-wrap">
+      <!-- Navigation Tabs -->
+      <div class="manual-nav" role="tablist" aria-label="Manual topics">
+        <button type="button" class="manual-tab" role="tab" id="tab-plan" aria-selected="true" aria-controls="pane-plan">
+          1. Service Planning
+        </button>
+        <button type="button" class="manual-tab" role="tab" id="tab-switcher" aria-selected="false" aria-controls="pane-switcher">
+          2. Live Switcher
+        </button>
+        <button type="button" class="manual-tab" role="tab" id="tab-keys" aria-selected="false" aria-controls="pane-keys">
+          3. Keyboard Shortcuts
+        </button>
+        <button type="button" class="manual-tab" role="tab" id="tab-displays" aria-selected="false" aria-controls="pane-displays">
+          4. Sanctuary &amp; Stage Displays
+        </button>
+        <button type="button" class="manual-tab" role="tab" id="tab-remote" aria-selected="false" aria-controls="pane-remote">
+          5. Mobile Remote
+        </button>
+        <button type="button" class="manual-tab" role="tab" id="tab-reports" aria-selected="false" aria-controls="pane-reports">
+          6. Reports &amp; Data Safety
+        </button>
+      </div>
+
+      <!-- Tab Panes -->
+      <!-- 1. Planning -->
+      <div class="manual-pane" id="pane-plan" role="tabpanel" aria-labelledby="tab-plan">
+        <div>
+          <h3>Pre-Service Planning &amp; Scheduling</h3>
+          <p class="fine" style="margin-top:4px">Build, balance, and pace your service running order before rehearsal starts.</p>
+        </div>
+        <div class="manual-steps">
+          <div class="manual-step">
+            <span class="step-num">STEP 1.1</span>
+            <h4>Create or Duplicate Service</h4>
+            <p>Click <strong>Services &gt; New Service</strong> or hit <strong>Duplicate Last Sunday</strong>. Kairos copies the order of service structure (welcome loops, sermon placeholder, announcements), letting you focus on updating song sets and scriptures.</p>
+          </div>
+          <div class="manual-step">
+            <span class="step-num">STEP 1.2</span>
+            <h4>Set Target Time &amp; Duration</h4>
+            <p>Define your target service start (e.g. 10:00 AM) and planned length (e.g. 75 min). The proportional ribbon draws each item to scale, instantly calculating whether you have spare minutes or risk running late.</p>
+          </div>
+          <div class="manual-step">
+            <span class="step-num">STEP 1.3</span>
+            <h4>Add Songs &amp; Passages</h4>
+            <p>Search any song or scripture passage in the library, and click <strong>+ Schedule</strong> to place it in the order. Drag schedule blocks to reorder anytime.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Live Switcher -->
+      <div class="manual-pane" id="pane-switcher" role="tabpanel" aria-labelledby="tab-switcher" hidden>
+        <div>
+          <h3>The Sunday Live Switcher Workflow</h3>
+          <p class="fine" style="margin-top:4px">How volunteers run the service with absolute confidence and zero accidental screen glitches.</p>
+        </div>
+        <div class="manual-steps">
+          <div class="manual-step">
+            <span class="step-num">STEP 2.1</span>
+            <h4>Search Privately</h4>
+            <p>Type a song title, lyric fragment, or scripture reference (e.g. <code>John 3:16</code>). The library updates instantly. The congregation never sees what you are typing or selecting.</p>
+          </div>
+          <div class="manual-step">
+            <span class="step-num">STEP 2.2</span>
+            <h4>Stage in Preview</h4>
+            <p>Click on any section (Verse 1, Chorus, Verse 2) in the parts browser. The slide loads immediately in the <strong>Preview</strong> pane with full formatting for private operator review.</p>
+          </div>
+          <div class="manual-step">
+            <span class="step-num">STEP 2.3</span>
+            <h4>Take to Live</h4>
+            <p>When the vocalists arrive at the lyric, press the big <strong>TAKE</strong> button or hit <kbd>Space</kbd>. The slide transitions to Live. The previous slide remains staged in Preview if you need to bounce back.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Keyboard Shortcuts -->
+      <div class="manual-pane" id="pane-keys" role="tabpanel" aria-labelledby="tab-keys" hidden>
+        <div>
+          <h3>Operator Keyboard Shortcut Matrix</h3>
+          <p class="fine" style="margin-top:4px">Run the entire worship service without lifting your hands from the keyboard.</p>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="kbd-table">
+            <thead>
+              <tr>
+                <th scope="col">Keystroke</th>
+                <th scope="col">Action</th>
+                <th scope="col">Operating Context</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><kbd>Space</kbd></td>
+                <td><strong>TAKE</strong></td>
+                <td>Swaps Preview with Live instantly.</td>
+              </tr>
+              <tr>
+                <td><kbd>0</kbd></td>
+                <td><strong>Jump to Chorus</strong></td>
+                <td>Immediately selects and stages the current song's Chorus.</td>
+              </tr>
+              <tr>
+                <td><kbd>1</kbd> &ndash; <kbd>9</kbd></td>
+                <td><strong>Jump to Verse 1&ndash;9</strong></td>
+                <td>Direct numeric jump to the matching numbered verse in the active song.</td>
+              </tr>
+              <tr>
+                <td><kbd>&larr;</kbd> / <kbd>&rarr;</kbd></td>
+                <td><strong>Step Slides</strong></td>
+                <td>Steps backward or forward through the current song arrangement or scripture passage.</td>
+              </tr>
+              <tr>
+                <td><kbd>Ctrl + K</kbd></td>
+                <td><strong>QuickFind HUD</strong></td>
+                <td>Opens global emergency search modal across all songs and scripture.</td>
+              </tr>
+              <tr>
+                <td><kbd>Enter</kbd> (in QuickFind)</td>
+                <td><strong>Stage Safely</strong></td>
+                <td>Loads chosen item into Preview without projecting.</td>
+              </tr>
+              <tr>
+                <td><kbd>Shift + Enter</kbd></td>
+                <td><strong>Panic Live Project</strong></td>
+                <td>Projects selected QuickFind item directly to Live (for spontaneous pastor requests).</td>
+              </tr>
+              <tr>
+                <td><kbd>B</kbd></td>
+                <td><strong>Blackout Toggle</strong></td>
+                <td>Cuts the Live output to pure black instantly.</td>
+              </tr>
+              <tr>
+                <td><kbd>C</kbd></td>
+                <td><strong>Clear Text</strong></td>
+                <td>Clears lyrics/scripture while preserving background motion graphics.</td>
+              </tr>
+              <tr>
+                <td><kbd>L</kbd></td>
+                <td><strong>Logo Screen</strong></td>
+                <td>Restores the default church emblem screen.</td>
+              </tr>
+              <tr>
+                <td><kbd>F</kbd></td>
+                <td><strong>Fullscreen Toggle</strong></td>
+                <td>Toggles borderless fullscreen on Projector and Stage Monitor displays.</td>
+              </tr>
+              <tr>
+                <td><kbd>Ctrl + Z</kbd> / <kbd>Ctrl + Y</kbd></td>
+                <td><strong>Undo / Redo</strong></td>
+                <td>Reverses or restores accidental schedule and staging modifications.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4. Displays -->
+      <div class="manual-pane" id="pane-displays" role="tabpanel" aria-labelledby="tab-displays" hidden>
+        <div>
+          <h3>Multi-Window Sanctuary &amp; Stage Display Setup</h3>
+          <p class="fine" style="margin-top:4px">Connecting and configuring secondary screens for congregation and musicians.</p>
+        </div>
+        <div class="manual-steps">
+          <div class="manual-step">
+            <span class="step-num">STEP 4.1</span>
+            <h4>Connect Physical Displays</h4>
+            <p>Connect your Sanctuary projector via HDMI/DisplayPort and your stage confidence TV via secondary output. In Windows or macOS settings, configure displays in <strong>Extend</strong> mode (not Mirror).</p>
+          </div>
+          <div class="manual-step">
+            <span class="step-num">STEP 4.2</span>
+            <h4>Assign Output Windows</h4>
+            <p>Open <strong>Settings &gt; Displays &amp; Output</strong> in Kairos. Assign <strong>Projector Window</strong> to Display 2, and <strong>Presenter Window</strong> to Display 3. Press <kbd>F</kbd> inside either window to snap to full screen.</p>
+          </div>
+          <div class="manual-step">
+            <span class="step-num">STEP 4.3</span>
+            <h4>Customize Confidence Cues</h4>
+            <p>The Presenter view automatically renders upcoming next-slide lyrics, musical chords (from ChordPro imports), and the live service time. Musicians never lose their place.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Remote -->
+      <div class="manual-pane" id="pane-remote" role="tabpanel" aria-labelledby="tab-remote" hidden>
+        <div>
+          <h3>Wireless Mobile Remote Pairing</h3>
+          <p class="fine" style="margin-top:4px">Control slides from an iPad on a music stand or check stage cues from an iPhone.</p>
+        </div>
+        <div class="manual-steps">
+          <div class="manual-step">
+            <span class="step-num">STEP 5.1</span>
+            <h4>Enable Remote on Local Wi-Fi</h4>
+            <p>In Kairos, open <strong>Settings &gt; Remote</strong> and toggle <em>"Allow phones on this network"</em>. Kairos enables immediate wireless connectivity across your sanctuary network.</p>
+          </div>
+          <div class="manual-step">
+            <span class="step-num">STEP 5.2</span>
+            <h4>Scan Pairing QR Code</h4>
+            <p>Scan the on-screen QR code using any smartphone or tablet camera. The browser opens the Kairos web remote instantly. No App Store download or account registration required.</p>
+          </div>
+          <div class="manual-step">
+            <span class="step-num">STEP 5.3</span>
+            <h4>Role-Based Access</h4>
+            <p>Generate a <strong>Controller Token</strong> (<code>KRS-XXXX</code>) for AV leaders to advance slides and trigger Blackout, or a <strong>Viewer Token</strong> (<code>KRV-XXXX</code>) for band members to view read-only confidence slides.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Reports & Safety -->
+      <div class="manual-pane" id="pane-reports" role="tabpanel" aria-labelledby="tab-reports" hidden>
+        <div>
+          <h3>Usage Reporting &amp; Automatic Backups</h3>
+          <p class="fine" style="margin-top:4px">Automatic legal compliance and zero-panic data integrity.</p>
+        </div>
+        <div class="manual-steps">
+          <div class="manual-step">
+            <span class="step-num">STEP 6.1</span>
+            <h4>Automatic Song Auditing</h4>
+            <p>Every time a song is projected Live, Kairos records the song title, copyright metadata, author, and exact timestamp to the local usage log.</p>
+          </div>
+          <div class="manual-step">
+            <span class="step-num">STEP 6.2</span>
+            <h4>Export Usage CSV</h4>
+            <p>When reporting time arrives, open <strong>Settings &gt; Reports &amp; Logs</strong> and click <strong>Download Song Usage CSV</strong>. The exported file matches the exact column format needed for church copyright and licensing reporting.</p>
+          </div>
+          <div class="manual-step">
+            <span class="step-num">STEP 6.3</span>
+            <h4>Automatic Daily Snapshots</h4>
+            <p>Your library is safely saved after every action. Every day the app runs, it automatically saves a timestamped snapshot to <code>backups/</code>, ensuring you can never lose your library.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Themes Section -->
+<section class="band band-alt" id="themes">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Operator Ergonomics</p>
+      <h2>Three looks for three kinds of rooms</h2>
+      <p class="lede">The exact same high-speed workspace rendered in three tailored color palettes. Switch anytime with zero restart.</p>
+    </div>
+    <div class="tcards">
+      <div class="tcard">
+        <div class="sw" style="background:#14161A" aria-hidden="true">
+          <i style="background:#181B20;border:1px solid #2A2F37"></i>
+          <div class="col">
+            <div class="bar" style="background:#1D2026;border:1px solid #2A2F37"></div>
+            <div class="box" style="background:#1D2026;border:1px solid #2A2F37"></div>
+            <div class="chip" style="background:#E0A458"></div>
+          </div>
+        </div>
+        <h3>Sanctuary Dark</h3>
+        <p>Low glare for the sound booth, where a bright monitor would bleed light into the congregation.</p>
+      </div>
+
+      <div class="tcard">
+        <div class="sw" style="background:#F4F6F8" aria-hidden="true">
+          <i style="background:#FFFFFF;border:1px solid #DDE3EA"></i>
+          <div class="col">
+            <div class="bar" style="background:#FFFFFF;border:1px solid #DDE3EA"></div>
+            <div class="box" style="background:#FFFFFF;border:1px solid #DDE3EA"></div>
+            <div class="chip" style="background:#2F5FC4"></div>
+          </div>
+        </div>
+        <h3>Cool Slate</h3>
+        <p>Crisp, high-contrast light mode designed for planning services in sunny church offices.</p>
+      </div>
+
+      <div class="tcard">
+        <div class="sw" style="background:#101820" aria-hidden="true">
+          <i style="background:#16202A;border-radius:12px"></i>
+          <div class="col">
+            <div class="bar" style="background:#1A2530;border-radius:14px"></div>
+            <div class="box" style="background:#1A2530;border-radius:14px"></div>
+            <div class="chip" style="background:#2EC4B6;border-radius:999px"></div>
+          </div>
+        </div>
+        <h3>Ministry Bold</h3>
+        <p>Larger typography and color-blocked status cards, ideal for youth rooms and portable setups.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="band" id="pricing">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Pricing Model</p>
+      <h2>Pay once. No forced subscriptions.</h2>
+      <p class="lede">Church ministry budgets should be predictable. Kairos is a one-time purchase with free minor and patch updates for life within your major version.</p>
+    </div>
+
+    <div class="pricing">
+      <div class="plan">
+        <p class="nm">Kairos License</p>
+        <div>
+          <p class="amount pending" id="priceAmount">Price set at launch</p>
+          <p class="hint" id="priceNote">One-time payment &middot; Multi-computer sanctuary license</p>
+        </div>
+        <ul>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>
+            <span>One payment. No monthly or annual recurring software fees.</span>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>
+            <span>Run on both Sanctuary projection PC and church office planning laptop.</span>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>
+            <span>Every minor and patch update is completely free.</span>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>
+            <span>Access is currently by invitation / request. Fill in the form below.</span>
+          </li>
+        </ul>
+        <a class="btn btn-primary" href="#request">Request access</a>
+      </div>
+
+      <div class="vt">
+        <table>
+          <caption>How updates are priced</caption>
+          <thead><tr><th scope="col">Update Level</th><th scope="col">Example</th><th scope="col">What changes</th><th scope="col">Cost</th></tr></thead>
+          <tbody>
+            <tr>
+              <th scope="row" style="text-transform:none;letter-spacing:0;font:600 1rem var(--sans);color:var(--ink)">Patch</th>
+              <td class="mono">1.0.1</td>
+              <td>Bug fixes, stability improvements, minor performance patches</td>
+              <td class="cost-free">Free</td>
+            </tr>
+            <tr>
+              <th scope="row" style="text-transform:none;letter-spacing:0;font:600 1rem var(--sans);color:var(--ink)">Minor</th>
+              <td class="mono">1.1</td>
+              <td>New capabilities, new Bible translations, feature upgrades</td>
+              <td class="cost-free">Free</td>
+            </tr>
+            <tr>
+              <th scope="row" style="text-transform:none;letter-spacing:0;font:600 1rem var(--sans);color:var(--ink)">Major</th>
+              <td class="mono">2.0</td>
+              <td>A new generation of Kairos architecture</td>
+              <td class="cost-paid" id="majorCost">Discounted upgrade</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="fine">The first number of the version is the major version. Existing license holders receive substantial discounts on major generation upgrades.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Request Form -->
+<section class="band band-alt" id="request">
+  <div class="wrap req">
+    <div>
+      <div class="head" style="margin-bottom:28px">
+        <p class="eyebrow">Request Access</p>
+        <h2>Tell us about your church</h2>
+        <p class="lede">Kairos is currently distributed directly to ministry partners. Tell us a bit about your team and setup, and we will send download links and activation instructions.</p>
+      </div>
+
+      <form id="reqForm" novalidate aria-label="Request access to Kairos">
+        <div class="row2">
+          <div class="field">
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" aria-describedby="e-name" placeholder="Pastor or AV Director">
+            <p class="err" id="e-name"></p>
+          </div>
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" aria-describedby="e-email" placeholder="name@yourchurch.org">
+            <p class="err" id="e-email"></p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-org">Church or organization</label>
+          <input id="f-org" name="organization" type="text" autocomplete="organization" aria-describedby="e-org" placeholder="Grace Community Fellowship">
+          <p class="err" id="e-org"></p>
+        </div>
+        <div class="field">
+          <label for="f-role">Your role</label>
+          <select id="f-role" name="role" aria-describedby="e-role">
+            <option value="">Choose one</option>
+            <option>Worship Leader / Music Director</option>
+            <option>Media / AV Team Volunteer</option>
+            <option>Senior Pastor / Teaching Pastor</option>
+            <option>Church Administrator</option>
+            <option>Other Ministry Staff</option>
+          </select>
+          <p class="err" id="e-role"></p>
+        </div>
+        <fieldset aria-describedby="e-os">
+          <legend class="legend">Computer in your AV booth</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="platform" value="Windows" id="f-os-win"> Windows 10/11</label>
+            <label class="opt"><input type="radio" name="platform" value="macOS" id="f-os-mac"> Apple macOS</label>
+            <label class="opt"><input type="radio" name="platform" value="Windows and macOS" id="f-os-both"> Both (PC in booth, Mac at home)</label>
+          </div>
+          <p class="err" id="e-os"></p>
+        </fieldset>
+        <div class="field">
+          <label for="f-note">Tell us about your current presentation software <span class="hint">(optional)</span></label>
+          <textarea id="f-note" name="note" placeholder="Currently using ProPresenter, EasyWorship, or PowerPoint? What pain points do you face?"></textarea>
+        </div>
+        <div class="field">
+          <label class="consent" for="f-consent">
+            <input id="f-consent" name="consent" type="checkbox" aria-describedby="e-consent">
+            <span>I agree to receive download access and onboarding communication from the Kairos team.</span>
+          </label>
+          <p class="err" id="e-consent"></p>
+        </div>
+        <div>
+          <button class="btn btn-primary" type="submit" id="sendBtn">Send request</button>
+        </div>
+      </form>
+
+      <div id="resultBox" hidden style="margin-top:20px"></div>
+    </div>
+
+    <aside aria-label="What happens next">
+      <h3 style="margin-bottom:20px">What happens next</h3>
+      <ol class="next">
+        <li>
+          <span class="n">1</span>
+          <div>
+            <b>Submit request</b>
+            <span>Takes under 60 seconds with no credit card required.</span>
+          </div>
+        </li>
+        <li>
+          <span class="n">2</span>
+          <div>
+            <b>Personalized onboarding email</b>
+            <span>We send the installer package for your operating system and early activation key.</span>
+          </div>
+        </li>
+        <li>
+          <span class="n">3</span>
+          <div>
+            <b>Test with your Sunday team</b>
+            <span>Import your existing ChordPro and lyric libraries and test dual-screen output in rehearsal.</span>
+          </div>
+        </li>
+      </ol>
+      <p class="fine" id="contactLine" hidden style="margin-top:24px">Questions first? Reach us at <span id="contactEmail"></span>.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- Comprehensive FAQ -->
+<section class="band" id="faq">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Frequently Asked Questions</p>
+      <h2>Common questions before you switch</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>How does the dual-display output work with secondary monitors?</summary>
+        <p>Kairos creates separate dedicated windows for the Sanctuary Projector and Stage Confidence Monitor. In the Settings &gt; Displays menu, you simply select which physical display adapter receives which output. Once assigned, Kairos remembers the configuration and restores full screen automatically on launch.</p>
+      </details>
+      <details>
+        <summary>Do I need an active internet connection on Sunday morning?</summary>
+        <p>No. Kairos is built completely local-first. Your entire song library, Bible translations (31,102 verses), service plans, and presentation settings are stored locally on your own computer. Sunday services never fail because of church Wi-Fi dropouts.</p>
+      </details>
+      <details>
+        <summary>Can worship leaders or musicians use an iPad as a wireless remote?</summary>
+        <p>Yes! Kairos includes a built-in wireless remote feature. When enabled, anyone on the sanctuary's local Wi-Fi can scan the QR code to open the remote in Safari or Chrome. Operators can grant full Controller access or read-only Stage Monitor Viewer access.</p>
+      </details>
+      <details>
+        <summary>Can a new volunteer run the service with zero prior training?</summary>
+        <p>Yes. That is the core design principle behind the 3-zone switcher. Searching and clicking around never touches the projector. Staging a slide in Preview lets the volunteer double-check the lyrics privately. A single tap on the Spacebar takes it Live.</p>
+      </details>
+      <details>
+        <summary>How does song usage and copyright reporting work?</summary>
+        <p>Kairos tracks every song taken Live into a local usage log. At the end of the month or quarter, go to Settings &gt; Reports &amp; Logs and click "Download Song Usage CSV". The file format is directly organized for copyright compliance and song usage reporting.</p>
+      </details>
+      <details>
+        <summary>Can I import our existing ChordPro and text song files?</summary>
+        <p>Yes. Kairos includes high-speed importers for ChordPro (.cho, .chopro, .chordpro, .crd, .pro) and plain text lyrics. It automatically parses chords, detects song sections (Verse, Chorus, Bridge), and automatically detects duplicate songs.</p>
+      </details>
+      <details>
+        <summary>What operating systems are supported?</summary>
+        <p>Kairos runs natively on 64-bit Windows 10/11 and macOS (both Apple Silicon M1/M2/M3 and Intel). A native Linux build is scheduled for release following the Windows/macOS rollout.</p>
+      </details>
+      <details>
+        <summary>What is your policy on software licenses and recurring subscriptions?</summary>
+        <p>You pay once for a perpetual license for the major version purchased. There are no monthly subscriptions, no seat fees, and all minor feature updates and stability patches are provided free of charge.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <p class="verse">
+          &ldquo;The time is fulfilled, and the kingdom of God is at hand.&rdquo;
+          <small>Mark 1:15 &middot; <span lang="el">Πεπλήρωται ὁ καιρός</span></small>
+        </p>
+        <div class="foot-logo" style="margin-top:28px">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="96" height="96" aria-label="Kairos Logo" style="display:block;border-radius:22px;box-shadow:0 8px 24px rgba(0,0,0,0.18)"><rect x="64" y="64" width="896" height="896" rx="200" ry="200" fill="#14213D"/><path d="M 720 330 A 300 300 0 1 1 512 212" fill="none" stroke="#E76F3C" stroke-width="80" stroke-linecap="round"/><g stroke="#E76F3C" stroke-width="96" stroke-linecap="round" fill="none"><line x1="400" y1="360" x2="400" y2="700"/><line x1="400" y1="530" x2="640" y2="360"/><line x1="400" y1="530" x2="760" y2="196"/></g></svg>
+        </div>
+      </div>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#manual">Operator Guide</a></li>
+        <li><a href="#pricing">Pricing &amp; Updates</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#request">Request Access</a></li>
+      </ul>
+    </div>
+    <p class="legal">&copy; 2026 Kairos Worship Technologies. Built by <a href="mailto:nmbuyi@proton.me">Orman Neville Mbuyi</a>.</p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  /* ---- Configuration variables ---- */
+  var CONFIG = {
+    contactEmail: 'nmbuyi@proton.me',      // Email shown next to request form
+    price: '',             // Display price e.g. "$149" (empty defaults to "Price set at launch")
+    majorUpgradePrice: ''  // Major version discount price e.g. "$69"
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  /* ---- Pricing & Contact Init ---- */
+  (function() {
+    if (CONFIG.price) {
+      var a = $('priceAmount');
+      a.textContent = CONFIG.price;
+      a.classList.remove('pending');
+    }
+    if (CONFIG.majorUpgradePrice) {
+      $('majorCost').textContent = 'Discounted upgrade (' + CONFIG.majorUpgradePrice + ')';
+    }
+    if (CONFIG.contactEmail) {
+      $('contactLine').hidden = false;
+      $('contactEmail').textContent = CONFIG.contactEmail;
+    }
+  })();
+
+  /* ---- Interactive Hero Application Switcher Sample ---- */
+  var ITEMS = [
+    {
+      id: 'song1',
+      badge: 'S',
+      title: 'Morning Light',
+      sub: 'Sample song · Key G · 4:30',
+      kind: 'SECTIONS',
+      bg: 'linear-gradient(160deg,#3A2410 0%,#8A5A2B 100%)',
+      chords: 'G · C · Em · D',
+      parts: [
+        ['Verse 1', 'We lift our voices to the morning light\nEvery heart awake to sing', 'Morning Light · Verse 1', '1'],
+        ['Chorus', 'Holy, holy, You are near\nLight of life, we gather here', 'Morning Light · Chorus', '0'],
+        ['Verse 2', 'Through the valleys and the quiet years\nYou have carried us along', 'Morning Light · Verse 2', '2'],
+        ['Bridge', 'Rise up, rise up, let the whole earth sing\nRise up, rise up, to our risen King', 'Morning Light · Bridge', '3']
+      ]
+    },
+    {
+      id: 'john',
+      badge: 'B',
+      title: 'John 3:16–17',
+      sub: 'KJV · 2 verses',
+      kind: 'VERSES',
+      bg: 'linear-gradient(160deg,#0F172A 0%,#1E3A5F 100%)',
+      chords: 'Scripture Reading',
+      parts: [
+        ['v16', 'For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.', 'John 3:16 · KJV', '1'],
+        ['v17', 'For God sent not his Son into the world to condemn the world; but that the world through him might be saved.', 'John 3:17 · KJV', '2']
+      ]
+    },
+    {
+      id: 'song2',
+      badge: 'S',
+      title: 'Hold Us Steady',
+      sub: 'Sample song · Key D · 4:00',
+      kind: 'SECTIONS',
+      bg: 'linear-gradient(160deg,#2A1B3A 0%,#5A3A7A 100%)',
+      chords: 'D · G · Bm · A',
+      parts: [
+        ['Verse 1', 'When the waters rise and the night is long\nYou are the anchor, You are strong', 'Hold Us Steady · Verse 1', '1'],
+        ['Chorus', 'Hold us steady, hold us near\nYou are faithful, we are here', 'Hold Us Steady · Chorus', '0'],
+        ['Bridge', 'We will not be shaken, we will not fear\nYou are with us, You are here', 'Hold Us Steady · Bridge', '3']
+      ]
+    }
+  ];
+
+  var PLAN = [
+    { t: 'Welcome Loop', m: 10, id: null },
+    { t: 'Morning Light', m: 5, id: 'song1' },
+    { t: 'John 3:16–17', m: 3, id: 'john' },
+    { t: 'Hold Us Steady', m: 4, id: 'song2' },
+    { t: 'Sermon & Prayer', m: 30, id: null },
+    { t: 'Benediction', m: 3, id: null }
+  ];
+
+  var TARGET = 55;
+  var state = {
+    sel: 'song1',
+    prev: { i: 'song1', p: 1 },
+    live: { i: 'song1', p: 0 },
+    q: '',
+    panic: null,          // 'black' | 'clear' | 'logo' | null
+    displayMode: 'proj'   // 'proj' | 'stage'
+  };
+
+  function byId(id) {
+    for (var k = 0; k < ITEMS.length; k++) {
+      if (ITEMS[k].id === id) return ITEMS[k];
+    }
+    return ITEMS[0];
+  }
+
+  function say(t) { $('status').textContent = t; }
+  function partName(ref) {
+    var it = byId(ref.i);
+    return it.parts[ref.p][2];
+  }
+
+  function fillSlide(boxId, capId, ref, isLiveOutput) {
+    var it = byId(ref.i), pt = it.parts[ref.p], box = $(boxId);
+    if (!box) return;
+
+    if (isLiveOutput && state.panic === 'black') {
+      box.style.background = '#000000';
+      var inner = box.querySelector('.slide-in');
+      if (inner) {
+        inner.children[0].textContent = '';
+        inner.children[1].textContent = '[BLACKOUT ACTIVE]';
+      }
+      $(capId).textContent = 'Display cut to black (Press B to restore)';
+      return;
+    }
+
+    if (isLiveOutput && state.panic === 'clear') {
+      box.style.background = it.bg;
+      var inner = box.querySelector('.slide-in');
+      if (inner) {
+        inner.children[0].textContent = '';
+        inner.children[1].textContent = '[TEXT CLEARED]';
+      }
+      $(capId).textContent = 'Text cleared · Background holding';
+      return;
+    }
+
+    if (isLiveOutput && state.panic === 'logo') {
+      box.style.background = 'radial-gradient(circle at center, #1B294B 0%, #0F172A 100%)';
+      var inner = box.querySelector('.slide-in');
+      if (inner) {
+        inner.children[0].textContent = 'KAIROS';
+        inner.children[1].textContent = 'Worship Service';
+      }
+      $(capId).textContent = 'Church logo screen active';
+      return;
+    }
+
+    box.style.background = it.bg;
+    var inner = box.querySelector('.slide-in');
+    if (inner) {
+      inner.children[0].textContent = pt[1];
+      inner.children[1].textContent = pt[2];
+    }
+    $(capId).textContent = pt[2];
+
+    // Stage view sync
+    if (isLiveOutput) {
+      $('smCurrent').innerHTML = pt[1].replace(/\n/g, '<br>');
+      $('smChords').textContent = it.chords || 'Live Lyrics';
+      var nextPt = byId(state.prev.i).parts[state.prev.p];
+      $('smNextText').textContent = nextPt[0] + ' (' + byId(state.prev.i).title + ')';
+    }
+  }
+
+  function renderResults() {
+    var q = state.q.toLowerCase().trim(), box = $('results');
+    box.replaceChildren();
+    var shown = 0;
+    ITEMS.forEach(function(it) {
+      var hay = (it.title + ' ' + it.sub + ' ' + it.parts.map(function(p) { return p[0] + ' ' + p[1] + ' ' + p[2]; }).join(' ')).toLowerCase();
+      if (q && hay.indexOf(q) < 0) return;
+      shown++;
+      var b = el('button', 'res');
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(state.sel === it.id));
+      b.appendChild(el('span', 'b', it.badge));
+      var w = el('span');
+      w.appendChild(el('span', 't', it.title));
+      w.appendChild(el('span', 's', it.sub));
+      b.appendChild(w);
+      b.addEventListener('click', function() {
+        state.sel = it.id;
+        render();
+        say('Showing ' + it.title + '. Preview and Live are unchanged.');
+      });
+      box.appendChild(b);
+    });
+    if (!shown) box.appendChild(el('p', 'empty', 'No matching items. Try another keyword.'));
+  }
+
+  function renderParts() {
+    var it = byId(state.sel), box = $('parts');
+    $('partsKind').textContent = it.kind;
+    $('partsTitle').textContent = it.title;
+    box.replaceChildren();
+    it.parts.forEach(function(pt, idx) {
+      var isLive = state.live.i === it.id && state.live.p === idx;
+      var isPrev = state.prev.i === it.id && state.prev.p === idx;
+      var b = el('button', 'part' + (isLive ? ' is-live' : '') + (isPrev ? ' is-prev' : ''));
+      b.type = 'button';
+
+      var lbl = el('span', 'l');
+      lbl.appendChild(document.createTextNode(pt[0]));
+      if (pt[3]) {
+        var kbd = el('span', 'sr', 'Hotkey ' + pt[3]);
+        lbl.appendChild(kbd);
+      }
+      b.appendChild(lbl);
+
+      var tx = el('span', 'x');
+      tx.textContent = pt[1];
+      b.appendChild(tx);
+
+      if (isLive) b.appendChild(el('span', 'tag tag-live', 'LIVE'));
+      else if (isPrev) b.appendChild(el('span', 'tag tag-prev', 'STAGED'));
+
+      b.addEventListener('click', function() {
+        state.prev = { i: it.id, p: idx };
+        render();
+        say(pt[2] + ' staged in Preview.');
+      });
+      box.appendChild(b);
+    });
+  }
+
+  function renderRibbon() {
+    var box = $('ribbon'), total = 0, before = 0, liveIdx = -1;
+    box.replaceChildren();
+    PLAN.forEach(function(b, idx) {
+      total += b.m;
+      if (b.id === state.live.i) liveIdx = idx;
+    });
+
+    PLAN.forEach(function(b, idx) {
+      if (idx < liveIdx) before += b.m;
+      var isLive = idx === liveIdx;
+      var node;
+      if (b.id) {
+        node = el('button', 'blk' + (isLive ? ' is-live' : ''), b.t);
+        node.type = 'button';
+        node.addEventListener('click', function() {
+          state.sel = b.id;
+          state.prev = { i: b.id, p: 0 };
+          render();
+          say(b.t + ' staged in Preview.');
+        });
+      } else {
+        node = el('div', 'blk', b.t);
+      }
+      node.style.flex = b.m + ' 1 0px';
+      node.title = b.t + ', ' + b.m + ' min';
+      box.appendChild(node);
+    });
+
+    if (liveIdx >= 0) {
+      var ph = el('div', 'playhead');
+      var liveBlock = PLAN[liveIdx];
+      ph.style.left = (((before + liveBlock.m * 0.5) / total) * 100).toFixed(1) + '%';
+      box.appendChild(ph);
+    }
+
+    $('planInfo').textContent = 'Plan ' + total + ' min · Target ' + TARGET + ' min · ';
+    var spare = TARGET - total;
+    var sp = el('b', null, spare >= 0 ? spare + ' min spare' : Math.abs(spare) + ' min OVER');
+    $('planInfo').appendChild(sp);
+
+    var endMin = 600 + total;
+    $('endsAt').textContent = 'Est. End: ' + Math.floor(endMin / 60) + ':' + String(endMin % 60).padStart(2, '0');
+  }
+
+  function render() {
+    renderResults();
+    renderParts();
+    fillSlide('prevSlide', 'prevCap', state.prev, false);
+    fillSlide('liveSlide', 'liveCap', state.live, true);
+    renderRibbon();
+
+    // Panic buttons highlight
+    $('panicBlack').setAttribute('data-active', String(state.panic === 'black'));
+    $('panicClear').setAttribute('data-active', String(state.panic === 'clear'));
+    $('panicLogo').setAttribute('data-active', String(state.panic === 'logo'));
+
+    // Output view toggles
+    var isStage = state.displayMode === 'stage';
+    $('btnModeAudience').setAttribute('aria-pressed', String(!isStage));
+    $('btnModeStage').setAttribute('aria-pressed', String(isStage));
+    $('liveSlideInner').hidden = isStage;
+    $('liveStageView').hidden = !isStage;
+  }
+
+  // Event Listeners for Switcher
+  $('appSearch').addEventListener('input', function(e) {
+    state.q = e.target.value;
+    renderResults();
+  });
+
+  function doTake() {
+    if (state.panic) state.panic = null;
+    var old = state.live;
+    state.live = state.prev;
+    state.prev = old;
+    render();
+    say(partName(state.live) + ' is now live. ' + partName(state.prev) + ' returned to Preview.');
+  }
+
+  $('take').addEventListener('click', doTake);
+
+  // Global Keyboard Shortcuts (Space for Take, B, C, L, 0)
+  window.addEventListener('keydown', function(ev) {
+    // Only capture when not focused inside regular form fields
+    var tag = ev.target.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+    if (ev.code === 'Space') {
+      ev.preventDefault();
+      doTake();
+    } else if (ev.key === 'b' || ev.key === 'B') {
+      state.panic = state.panic === 'black' ? null : 'black';
+      render();
+    } else if (ev.key === 'c' || ev.key === 'C') {
+      state.panic = state.panic === 'clear' ? null : 'clear';
+      render();
+    } else if (ev.key === 'l' || ev.key === 'L') {
+      state.panic = state.panic === 'logo' ? null : 'logo';
+      render();
+    } else if (ev.key === '0') {
+      // Jump to Chorus
+      var cur = byId(state.live.i);
+      for (var p = 0; p < cur.parts.length; p++) {
+        if (cur.parts[p][0].indexOf('Chorus') >= 0) {
+          state.prev = { i: cur.id, p: p };
+          doTake();
+          break;
+        }
+      }
+    }
+  });
+
+  // Panic button clicks
+  $('panicBlack').addEventListener('click', function() {
+    state.panic = state.panic === 'black' ? null : 'black';
+    render();
+  });
+  $('panicClear').addEventListener('click', function() {
+    state.panic = state.panic === 'clear' ? null : 'clear';
+    render();
+  });
+  $('panicLogo').addEventListener('click', function() {
+    state.panic = state.panic === 'logo' ? null : 'logo';
+    render();
+  });
+
+  // Display mode toggles
+  $('btnModeAudience').addEventListener('click', function() {
+    state.displayMode = 'proj';
+    render();
+  });
+  $('btnModeStage').addEventListener('click', function() {
+    state.displayMode = 'stage';
+    render();
+  });
+
+  // Operator Themes
+  var themeBtns = document.querySelectorAll('[data-theme-btn]');
+  Array.prototype.forEach.call(themeBtns, function(b) {
+    b.addEventListener('click', function() {
+      $('app').setAttribute('data-app', b.getAttribute('data-theme-btn'));
+      Array.prototype.forEach.call(themeBtns, function(o) {
+        o.setAttribute('aria-pressed', String(o === b));
+      });
+    });
+  });
+
+  render();
+
+  /* ---- Interactive User Manual Tabs ---- */
+  var manualTabs = document.querySelectorAll('.manual-tab');
+  var manualPanes = document.querySelectorAll('.manual-pane');
+
+  manualTabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      manualTabs.forEach(function(t) { t.setAttribute('aria-selected', 'false'); });
+      manualPanes.forEach(function(p) { p.hidden = true; });
+
+      tab.setAttribute('aria-selected', 'true');
+      var targetId = tab.getAttribute('aria-controls');
+      var pane = $(targetId);
+      if (pane) pane.hidden = false;
+    });
+  });
+
+  /* ---- Request Access Form Handling ---- */
+  var form = $('reqForm'), resultBox = $('resultBox'), sendBtn = $('sendBtn');
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function setErr(id, msg, fieldId) {
+    var e = $('e-' + id);
+    if (e) e.textContent = msg || '';
+    if (fieldId) {
+      var f = $(fieldId);
+      if (f) {
+        if (msg) f.setAttribute('aria-invalid', 'true');
+        else f.removeAttribute('aria-invalid');
+      }
+    }
+  }
+
+  function validate() {
+    var first = null, ok = true;
+    function bad(id, msg, fieldId) {
+      setErr(id, msg, fieldId);
+      ok = false;
+      if (!first) first = $(fieldId || ('f-' + id));
+    }
+    function good(id, fieldId) { setErr(id, '', fieldId); }
+
+    if (!$('f-name').value.trim()) bad('name', 'Please enter your name.', 'f-name');
+    else good('name', 'f-name');
+
+    var em = $('f-email').value.trim();
+    if (!em) bad('email', 'Please enter your email address.', 'f-email');
+    else if (!EMAIL_RE.test(em)) bad('email', 'Please enter a valid email address (e.g. name@church.org).', 'f-email');
+    else good('email', 'f-email');
+
+    if (!$('f-org').value.trim()) bad('org', 'Please enter your church or organization name.', 'f-org');
+    else good('org', 'f-org');
+
+    if (!$('f-role').value) bad('role', 'Please choose your primary role.', 'f-role');
+    else good('role', 'f-role');
+
+    var os = form.querySelector('input[name="platform"]:checked');
+    if (!os) {
+      setErr('os', 'Please select the operating system used in your AV booth.');
+      ok = false;
+      if (!first) first = $('f-os-win');
+    } else {
+      setErr('os', '');
+    }
+
+    if (!$('f-consent').checked) bad('consent', 'Please check this box to receive your access invite.', 'f-consent');
+    else good('consent', 'f-consent');
+
+    if (first) first.focus();
+    return ok;
+  }
+
+  function collect() {
+    var os = form.querySelector('input[name="platform"]:checked');
+    return {
+      name: $('f-name').value.trim(),
+      email: $('f-email').value.trim(),
+      organization: $('f-org').value.trim(),
+      role: $('f-role').value,
+      platform: os ? os.value : '',
+      note: $('f-note').value.trim(),
+      consent: true,
+      submittedAt: new Date().toISOString(),
+      source: 'kairos-marketing-portal'
+    };
+  }
+
+  function summary(d) {
+    return [
+      'Name: ' + d.name,
+      'Email: ' + d.email,
+      'Church/Org: ' + d.organization,
+      'Role: ' + d.role,
+      'Platform: ' + d.platform,
+      'Note: ' + (d.note || 'None')
+    ].join('\n');
+  }
+
+  function show(kind, title, body, extra) {
+    resultBox.hidden = false;
+    resultBox.replaceChildren();
+    var n = el('div', 'notice ' + kind);
+    n.setAttribute('role', 'status');
+    n.appendChild(el('b', null, title));
+    n.appendChild(el('p', null, body));
+    if (extra) n.appendChild(extra);
+    resultBox.appendChild(n);
+    resultBox.scrollIntoView({ block: 'nearest' });
+  }
+
+  form.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+    if (!validate()) return;
+    var data = collect();
+
+    var recipient = 'nmbuyi@proton.me';
+    var subject = 'Kairos Access Request - ' + data.name + (data.organization ? ' (' + data.organization + ')' : '');
+    var bodyLines = [
+      'Hello Orman,',
+      '',
+      'I would like to request access to Kairos Worship Presentation Software.',
+      '',
+      '--- Request Details ---',
+      'Name: ' + data.name,
+      'Email: ' + data.email,
+      'Church/Organization: ' + data.organization,
+      'Role: ' + data.role,
+      'AV Booth Computer: ' + data.platform,
+      'Current Software / Notes: ' + (data.note || 'None'),
+      '',
+      'Thank you!'
+    ];
+
+    var mailtoUrl = 'mailto:' + encodeURIComponent(recipient) +
+                    '?subject=' + encodeURIComponent(subject) +
+                    '&body=' + encodeURIComponent(bodyLines.join('\r\n'));
+
+    // Trigger mail client via hyperlink
+    var link = document.createElement('a');
+    link.href = mailtoUrl;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    var extra = el('div');
+    extra.style.display = 'grid';
+    extra.style.gap = '10px';
+    extra.style.marginTop = '12px';
+
+    var btn = el('a', 'btn btn-primary', 'Open Email Client Again');
+    btn.href = mailtoUrl;
+    btn.style.justifySelf = 'start';
+    extra.appendChild(btn);
+
+    show('ok', 'Opening Your Email Application', 'Your request has been prepared and addressed to ' + recipient + '. If your email client does not open automatically, click the button below to send your request.', extra);
+  });
+
+  ['f-name', 'f-email', 'f-org', 'f-role', 'f-consent'].forEach(function(id) {
+    var f = $(id);
+    if (!f) return;
+    var ev = (f.type === 'checkbox' || f.tagName === 'SELECT') ? 'change' : 'input';
+    f.addEventListener(ev, function() {
+      var map = { 'f-name': 'name', 'f-email': 'email', 'f-org': 'org', 'f-role': 'role', 'f-consent': 'consent' };
+      if (f.getAttribute('aria-invalid') === 'true') setErr(map[id], '', id);
+    });
+  });
+
+  Array.prototype.forEach.call(form.querySelectorAll('input[name="platform"]'), function(r) {
+    r.addEventListener('change', function() { setErr('os', ''); });
+  });
+
+})();
+</script>
+
+</body>
+</html>
