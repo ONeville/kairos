@@ -1,11 +1,11 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kairos · The Appointed Time · Worship Presentation Software</title>
     <link rel="icon" type="image/jpeg" href="icon.ico" />
-<meta name="description" content="A reliable, fast, volunteer-friendly worship presentation app. Proportional service scheduling, dual-display projection, confidence stage monitor, zero-subscription pricing.">
+<meta name="description" content="Kairos is presentation software for church services. Plan the running order, search songs and scripture offline, preview privately, and take slides live. Windows and macOS, pay once.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap">
@@ -36,6 +36,7 @@
   --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
   --radius: 10px;
   --wrap: 1160px;
+  --cream: #F6F1E8;
   scroll-behavior: smooth;
 }
 
@@ -59,6 +60,7 @@
     --ok-soft: #12372A;
     --warn: #FEC84B;
     --warn-soft: #4A3A12;
+    --cream: #1B1915;
     color-scheme: dark;
   }
 }
@@ -82,6 +84,7 @@
   --ok-soft: #12372A;
   --warn: #FEC84B;
   --warn-soft: #4A3A12;
+  --cream: #1B1915;
   color-scheme: dark;
 }
 
@@ -104,6 +107,7 @@
   --ok-soft: #D1FADF;
   --warn: #7A4A00;
   --warn-soft: #FEF0C7;
+  --cream: #F6F1E8;
   color-scheme: light;
 }
 
@@ -166,6 +170,51 @@ p { margin: 0; }
 
 .band { padding-block: clamp(56px, 8vw, 96px); }
 .band-alt { background: var(--surface); border-block: 1px solid var(--line); }
+.band-cream { background: var(--cream); border-block: 1px solid var(--line); }
+
+/* Simple numbered steps */
+.steps { border-top: 1px solid var(--line); margin-top: 8px; }
+.step {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: clamp(16px, 3vw, 32px);
+  padding: 30px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+}
+.step .num {
+  font: 500 3.6rem/1 var(--display);
+  color: transparent;
+  -webkit-text-stroke: 1.3px #B4683C;
+  letter-spacing: .02em;
+}
+.step h3 { margin-bottom: 8px; }
+.step p { color: var(--muted); font-size: 1rem; max-width: 62ch; }
+@media (max-width: 640px) {
+  .step { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+}
+
+/* Collapsed keyboard reference */
+.kbd-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 26px;
+}
+.kbd-row > b { font-family: var(--display); font-weight: 500; font-size: 1.25rem; }
+.kbd-ref { border: 0; flex: 1; max-width: 560px; }
+.kbd-ref summary {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  min-height: 46px;
+  padding: 0 16px;
+  font-size: .95rem;
+}
+.kbd-ref summary::after { content: "\2304"; font-size: 1rem; }
+.kbd-ref[open] summary::after { content: "\2303"; }
+.kbd-ref .kbd-body { margin-top: 8px; }
 section[id] { scroll-margin-top: 76px; }
 
 .btn {
@@ -236,6 +285,31 @@ section[id] { scroll-margin-top: 76px; }
 .nav a.link:hover { color: var(--ink); }
 .nav .btn { min-height: 38px; padding: 0 16px; font-size: .9rem; }
 @media (max-width: 900px) { .nav a.link { display: none; } }
+
+/* Language toggle */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: #14213D;
+  flex: none;
+}
+.lang-toggle button {
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,.55);
+  font: 600 .78rem/1 var(--sans);
+  letter-spacing: .04em;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.lang-toggle button[aria-pressed="true"] {
+  background: rgba(255,255,255,.14);
+  color: #FFFFFF;
+}
 
 /* Hero */
 .hero {
@@ -845,17 +919,10 @@ button.blk:hover { border-color: var(--a-accent); }
   display: grid;
   grid-template-columns: 36px minmax(0, 1fr);
   gap: 16px;
-  padding: 24px;
-  border-radius: var(--radius);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  transition: transform .12s ease, border-color .12s ease;
+  padding: 4px 0;
 }
 
-.feat-card:hover {
-  border-color: var(--line-strong);
-  transform: translateY(-2px);
-}
+.feat-tags { display: none; }
 
 .feat-icon {
   width: 36px;
@@ -888,84 +955,6 @@ button.blk:hover { border-color: var(--a-accent); }
 
 @media (max-width: 800px) {
   .feat-grid { grid-template-columns: minmax(0, 1fr); }
-}
-
-/* Detailed User Manual (How it Works) */
-.manual-wrap {
-  display: grid;
-  gap: 24px;
-}
-
-.manual-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 12px;
-}
-
-.manual-tab {
-  min-height: 40px;
-  padding: 0 16px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--muted);
-  font: 600 .9rem/1 var(--sans);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all .15s ease;
-}
-
-.manual-tab:hover {
-  color: var(--ink);
-  border-color: var(--muted);
-}
-
-.manual-tab[aria-selected="true"] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--on-accent);
-}
-
-.manual-pane {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: clamp(24px, 4vw, 40px);
-  display: grid;
-  gap: 24px;
-}
-
-.manual-steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  counter-reset: manual-step;
-}
-
-.manual-step {
-  display: grid;
-  gap: 10px;
-  padding: 20px;
-  background: var(--surface-alt);
-  border-radius: 8px;
-  border: 1px solid var(--line);
-}
-
-.manual-step .step-num {
-  font: 700 .8rem/1 var(--mono);
-  letter-spacing: .1em;
-  color: var(--accent);
-}
-
-.manual-step h4 { font-size: 1.15rem; }
-.manual-step p { color: var(--muted); font-size: .92rem; }
-
-@media (max-width: 860px) {
-  .manual-steps { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* Keyboard Shortcut Matrix */
@@ -1236,57 +1225,69 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
       Kairos
     </a>
     <nav class="nav" aria-label="Main navigation">
-      <a class="link" href="#features">Features</a>
-      <a class="link" href="#how">How it works</a>
-      <a class="link" href="#manual">Operator guide</a>
-      <a class="link" href="#themes">Themes</a>
-      <a class="link" href="#pricing">Pricing</a>
-      <a class="link" href="#faq">FAQ</a>
-      <a class="btn btn-primary" href="#request">Request access</a>
+      <a class="link" href="#how" data-i18n="nav_how">How it works</a>
+      <a class="link" href="#features" data-i18n="nav_features">Features</a>
+      <a class="link" href="#themes" data-i18n="nav_themes">Themes</a>
+      <a class="link" href="#pricing" data-i18n="nav_pricing">Pricing</a>
+      <a class="link" href="#faq" data-i18n="nav_faq">FAQ</a>
+      <div class="lang-toggle" role="group" aria-label="Language / Langue">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+      </div>
+      <a class="btn btn-primary" href="#request" data-i18n="nav_request">Request access</a>
     </nav>
   </div>
 </header>
 
 <main id="top">
 
-<!-- Hero Section with Working App Switcher -->
+<!-- Hero -->
 <section class="hero band">
   <div class="wrap">
     <div class="hero-copy">
-      <p class="eyebrow">Kairos &middot; <span lang="el">καιρός</span> &middot; the appointed time</p>
-      <h1>The right moment, in the right order.</h1>
-      <p class="lede">Fast, reliable presentation software for worship services. Built with dual-window projection, a high-legibility stage confidence monitor, instant offline scripture search, and zero subscriptions.</p>
-      
+      <p class="eyebrow">Kairos &middot; <span lang="el">καιρός</span> &middot; <span data-i18n="hero_eyebrow">The appointed time</span></p>
+      <h1 data-i18n="hero_title">Nothing reaches the screen by accident.</h1>
+      <p class="lede" data-i18n="hero_lede">Kairos is presentation software for church services. Plan the running order, search songs and scripture with no internet, check every slide privately, then take it live yourself. Runs on Windows and macOS, and you pay once.</p>
+
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#request">Request access</a>
-        <a class="btn btn-quiet" href="#how">See how it works</a>
-        <a class="btn btn-quiet" href="#manual">Open user manual</a>
+        <a class="btn btn-primary" href="#request" data-i18n="btn_request">Request access</a>
+        <a class="btn btn-quiet" href="#workspace" data-i18n="btn_try">Try the switcher</a>
       </div>
 
       <div class="specs-bar" aria-label="Key technical specifications">
         <span class="spec-pill">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-          Windows &amp; macOS Native
+          <span data-i18n="pill_os">Windows and macOS</span>
         </span>
         <span class="spec-pill">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
-          Dual-Output (Sanctuary + Stage)
+          <span data-i18n="pill_dual">Projector plus stage monitor</span>
         </span>
         <span class="spec-pill">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14a9 3 0 0 0 18 0V5"></path><path d="M3 12a9 3 0 0 0 18 0"></path></svg>
-          100% Offline &amp; Private
+          <span data-i18n="pill_offline">Works with no internet</span>
         </span>
         <span class="spec-pill">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"></path></svg>
-          LAN Web Remote (QR Pairing)
+          <span data-i18n="pill_remote">Phone remote over Wi-Fi</span>
         </span>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- Live Working Sample -->
+<!-- 01 / The Workspace: live working sample -->
+<section class="band" id="workspace">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow"><span data-i18n="ws_eyebrow">01 / The workspace</span></p>
+      <h2 data-i18n="ws_title">Try the switcher before you commit</h2>
+      <p class="lede" data-i18n="ws_lede">A working sample of the Sunday workflow. Search the library, click a section to stage it, then press Take. Click the workspace once and the keyboard works too: Space takes, B blacks out, C clears the words, L shows the logo.</p>
+    </div>
+
     <div class="stage">
       <div class="stage-bar">
-        <p class="stage-cap">Interactive switcher. Try searching, select a section, press <strong>TAKE</strong> (or hit <code>Space</code>), or test Blackout / Stage display.</p>
+        <p class="eyebrow" data-i18n="ws_theme_label">Operator theme</p>
         <div class="stage-controls">
           <div class="themes" role="group" aria-label="App theme">
             <button type="button" data-theme-btn="sanctuary" aria-pressed="true">Sanctuary Dark</button>
@@ -1391,397 +1392,221 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
   </div>
 </section>
 
-<!-- 8 Core Feature Pillars -->
+<!-- 02 / Features -->
 <section class="band band-alt" id="features">
   <div class="wrap">
     <div class="head">
-      <p class="eyebrow">Features</p>
-      <h2>Built for worship, engineered for calm.</h2>
-      <p class="lede">Every detail in Kairos was shaped by actual Sunday mornings in the AV booth: zero desktop flashes, rock-solid offline reliability, spontaneous song navigation, and dual-window confidence.</p>
+      <p class="eyebrow" data-i18n="f_eyebrow">02 / Features</p>
+      <h2 data-i18n="f_title">Built for the people who run it</h2>
+      <p class="lede" data-i18n="f_lede">Kairos is opinionated about one thing: whoever is pressing the keys should never have to explain a mistake to the congregation.</p>
     </div>
 
     <div class="feat-grid">
-      <!-- 1. Dual Display -->
       <article class="feat-card">
         <div class="feat-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
         </div>
         <div>
-          <h3>Dual-Output Display Engine</h3>
-          <p>Separate Sanctuary Projection and Stage Confidence Monitor windows. The room sees clean, beautiful lyrics while musicians see chord charts, stage cues, current/next slide previews, and a live service countdown clock.</p>
-          <div class="feat-tags">
-            <span class="feat-tag">Projector Window</span>
-            <span class="feat-tag">Stage Monitor</span>
-            <span class="feat-tag">Hotkey 'F' Fullscreen</span>
-          </div>
+          <h3 data-i18n="f1_t">Two outputs, one operator</h3>
+          <p data-i18n="f1_b">The sanctuary projector and the stage confidence monitor are separate windows. The room gets lyrics; the band gets chords, the slide that is up next and the running service clock.</p>
         </div>
       </article>
 
-      <!-- 2. Volunteer-Safe Switcher -->
       <article class="feat-card">
         <div class="feat-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="8" height="14" rx="1.5"></rect><rect x="13" y="5" width="8" height="14" rx="1.5"></rect></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
         </div>
         <div>
-          <h3>Volunteer-Safe 3-Zone Switcher</h3>
-          <p>Search, preview, and project live in three strictly isolated zones. Search queries and preliminary staging never touch the screen until you hit the big Take button or tap the Spacebar.</p>
-          <div class="feat-tags">
-            <span class="feat-tag">No accidental flashes</span>
-            <span class="feat-tag">Spacebar Take</span>
-            <span class="feat-tag">Staged preview</span>
-          </div>
+          <h3 data-i18n="f2_t">Three zones, no accidents</h3>
+          <p data-i18n="f2_b">Search, preview and live stay apart. Everything you type and click lands in the library or the preview pane, and only Take puts it on the screen.</p>
         </div>
       </article>
 
-      <!-- 3. Spontaneous Song Navigation -->
       <article class="feat-card">
         <div class="feat-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
         </div>
         <div>
-          <h3>Live Song Hotkeys &amp; Arrangements</h3>
-          <p>When the worship leader repeats the chorus unexpectedly, don't scramble through slides. Hit <code>0</code> to instantly jump to the Chorus, or <code>1</code>&ndash;<code>9</code> for numbered verses. Clickable badges stay visible right on the Live pane.</p>
-          <div class="feat-tags">
-            <span class="feat-tag">0: Chorus</span>
-            <span class="feat-tag">1-9: Verses</span>
-            <span class="feat-tag">Arrow step</span>
-          </div>
+          <h3 data-i18n="f3_t">Jumps for a leader who changes the plan</h3>
+          <p data-i18n="f3_b">Press 0 for the chorus, 1 to 9 for numbered verses, arrows to step through the arrangement. It works from the live pane while the song is already on screen.</p>
         </div>
       </article>
 
-      <!-- 4. QuickFind & Panic Controls -->
       <article class="feat-card">
         <div class="feat-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
         </div>
         <div>
-          <h3>Global QuickFind &amp; Panic Toggles</h3>
-          <p>Hit <code>Ctrl+K</code> to summon the instant fuzzy search HUD from anywhere. Press <code>Enter</code> to stage safely, or <code>Shift+Enter</code> for emergency live projection. Instant panic keys for Blackout (<code>B</code>), Clear Text (<code>C</code>), and Logo (<code>L</code>).</p>
-          <div class="feat-tags">
-            <span class="feat-tag">Ctrl+K HUD</span>
-            <span class="feat-tag">B: Blackout</span>
-            <span class="feat-tag">C: Clear</span>
-            <span class="feat-tag">L: Logo</span>
-          </div>
+          <h3 data-i18n="f4_t">Songs and scripture, entirely offline</h3>
+          <p data-i18n="f4_b">1,696 worship songs and the full King James Bible, searchable by any line of text with no internet. Import ChordPro or plain-text lyrics and Kairos finds the duplicates in your library.</p>
         </div>
       </article>
 
-      <!-- 5. Time-Ruled Scheduler -->
       <article class="feat-card">
         <div class="feat-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         </div>
         <div>
-          <h3>Proportional Service Scheduler</h3>
-          <p>Schedule items are drawn to scale based on planned duration. Track elapsed time against your target benediction, duplicate previous services in one click, and save reusable service templates (Sunday, Midweek, Youth).</p>
-          <div class="feat-tags">
-            <span class="feat-tag">Drawn to scale</span>
-            <span class="feat-tag">Duplicate Last Sunday</span>
-            <span class="feat-tag">Target tracking</span>
-          </div>
+          <h3 data-i18n="f5_t">A schedule drawn to scale</h3>
+          <p data-i18n="f5_b">Enter the planned minutes and every block is drawn at that width against your finish time. Duplicate last Sunday in one click, or keep templates for midweek and youth.</p>
         </div>
       </article>
 
-      <!-- 6. Offline Library & Scripture -->
       <article class="feat-card">
         <div class="feat-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14a9 3 0 0 0 18 0V5"></path><path d="M3 12a9 3 0 0 0 18 0"></path></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line></svg>
         </div>
         <div>
-          <h3>100% Offline Built-In Library</h3>
-          <p>Preloaded with 1,696+ worship songs and the complete 66-book King James Bible (31,102 verses). Full-text search returns results instantly without internet dependency. Import ChordPro, text files, and automatically detect duplicate songs.</p>
-          <div class="feat-tags">
-            <span class="feat-tag">1,696+ Songs</span>
-            <span class="feat-tag">31,102 Verses</span>
-            <span class="feat-tag">ChordPro import</span>
-          </div>
+          <h3 data-i18n="f6_t">A phone as the remote</h3>
+          <p data-i18n="f6_b">Scan a QR code and any phone or tablet on the church Wi-Fi becomes a controller or a read-only stage monitor. Nothing to install and no account to make.</p>
         </div>
       </article>
 
-      <!-- 7. LAN Wireless Mobile Remote -->
       <article class="feat-card">
         <div class="feat-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"></path></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><line x1="5" y1="5" x2="19" y2="19"></line></svg>
         </div>
         <div>
-          <h3>Zero-Install LAN Mobile Remote</h3>
-          <p>Turn any smartphone or iPad into a wireless presentation remote or stage monitor over local Wi-Fi. Scan the QR code to connect instantly over your local Wi-Fi. Secure roles separate Controllers (AV leads) from read-only Viewers (band members).</p>
-          <div class="feat-tags">
-            <span class="feat-tag">No App Store install</span>
-            <span class="feat-tag">QR Code pairing</span>
-            <span class="feat-tag">Role permissions</span>
-          </div>
+          <h3 data-i18n="f7_t">Panic keys that always answer</h3>
+          <p data-i18n="f7_b">B blacks the screen out, C clears the words and holds the background, L puts the church logo up. One key each, no menus, no mouse.</p>
         </div>
       </article>
 
-      <!-- 8. Usage Logging & Compliance -->
       <article class="feat-card">
         <div class="feat-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
         </div>
         <div>
-          <h3>Automated Song Usage &amp; Event Auditing</h3>
-          <p>Every slide that reaches the Live display is logged automatically with timestamp, title, author, and copyright metadata. Export clean CSV reports ready for copyright and licensing reporting in seconds. Daily automatic backup snapshots keep your library secure.</p>
-          <div class="feat-tags">
-            <span class="feat-tag">Automated logging</span>
-            <span class="feat-tag">Usage CSV export</span>
-            <span class="feat-tag">Daily snapshots</span>
-          </div>
+          <h3 data-i18n="f8_t">A usage log for copyright reporting</h3>
+          <p data-i18n="f8_b">Every song that goes live is logged with its author and timestamp. Export a CSV when the reporting comes round, and Kairos keeps a daily snapshot of your library.</p>
         </div>
       </article>
     </div>
   </div>
 </section>
 
-<!-- Interactive Detailed User Manual -->
-<section class="band" id="manual">
+<!-- 03 / How it works -->
+<section class="band band-cream" id="how">
   <div class="wrap">
     <div class="head">
-      <p class="eyebrow">Operator Guide &middot; User Manual</p>
-      <h2>Master Kairos in under 5 minutes.</h2>
-      <p class="lede">A complete reference guide for AV directors, pastors, and Sunday morning volunteers. Select a topic below to review step-by-step operating workflows.</p>
+      <p class="eyebrow" data-i18n="hw_eyebrow">03 / How it works</p>
+      <h2 data-i18n="hw_title">Three moves, every Sunday</h2>
+      <p class="lede" data-i18n="hw_lede">There is no mode to remember and no settings screen standing between you and the next song.</p>
     </div>
 
-    <div class="manual-wrap">
-      <!-- Navigation Tabs -->
-      <div class="manual-nav" role="tablist" aria-label="Manual topics">
-        <button type="button" class="manual-tab" role="tab" id="tab-plan" aria-selected="true" aria-controls="pane-plan">
-          1. Service Planning
-        </button>
-        <button type="button" class="manual-tab" role="tab" id="tab-switcher" aria-selected="false" aria-controls="pane-switcher">
-          2. Live Switcher
-        </button>
-        <button type="button" class="manual-tab" role="tab" id="tab-keys" aria-selected="false" aria-controls="pane-keys">
-          3. Keyboard Shortcuts
-        </button>
-        <button type="button" class="manual-tab" role="tab" id="tab-displays" aria-selected="false" aria-controls="pane-displays">
-          4. Sanctuary &amp; Stage Displays
-        </button>
-        <button type="button" class="manual-tab" role="tab" id="tab-remote" aria-selected="false" aria-controls="pane-remote">
-          5. Mobile Remote
-        </button>
-        <button type="button" class="manual-tab" role="tab" id="tab-reports" aria-selected="false" aria-controls="pane-reports">
-          6. Reports &amp; Data Safety
-        </button>
-      </div>
-
-      <!-- Tab Panes -->
-      <!-- 1. Planning -->
-      <div class="manual-pane" id="pane-plan" role="tabpanel" aria-labelledby="tab-plan">
+    <div class="steps">
+      <div class="step">
+        <span class="num" aria-hidden="true">01</span>
         <div>
-          <h3>Pre-Service Planning &amp; Scheduling</h3>
-          <p class="fine" style="margin-top:4px">Build, balance, and pace your service running order before rehearsal starts.</p>
-        </div>
-        <div class="manual-steps">
-          <div class="manual-step">
-            <span class="step-num">STEP 1.1</span>
-            <h4>Create or Duplicate Service</h4>
-            <p>Click <strong>Services &gt; New Service</strong> or hit <strong>Duplicate Last Sunday</strong>. Kairos copies the order of service structure (welcome loops, sermon placeholder, announcements), letting you focus on updating song sets and scriptures.</p>
-          </div>
-          <div class="manual-step">
-            <span class="step-num">STEP 1.2</span>
-            <h4>Set Target Time &amp; Duration</h4>
-            <p>Define your target service start (e.g. 10:00 AM) and planned length (e.g. 75 min). The proportional ribbon draws each item to scale, instantly calculating whether you have spare minutes or risk running late.</p>
-          </div>
-          <div class="manual-step">
-            <span class="step-num">STEP 1.3</span>
-            <h4>Add Songs &amp; Passages</h4>
-            <p>Search any song or scripture passage in the library, and click <strong>+ Schedule</strong> to place it in the order. Drag schedule blocks to reorder anytime.</p>
-          </div>
+          <h3 data-i18n="s1_t">Plan the order</h3>
+          <p data-i18n="s1_b">Start from last Sunday or a template, then set the songs, readings and the time you want to finish. Every item is drawn at the width of its planned minutes, so you can see where the time is going.</p>
         </div>
       </div>
-
-      <!-- 2. Live Switcher -->
-      <div class="manual-pane" id="pane-switcher" role="tabpanel" aria-labelledby="tab-switcher" hidden>
+      <div class="step">
+        <span class="num" aria-hidden="true">02</span>
         <div>
-          <h3>The Sunday Live Switcher Workflow</h3>
-          <p class="fine" style="margin-top:4px">How volunteers run the service with absolute confidence and zero accidental screen glitches.</p>
-        </div>
-        <div class="manual-steps">
-          <div class="manual-step">
-            <span class="step-num">STEP 2.1</span>
-            <h4>Search Privately</h4>
-            <p>Type a song title, lyric fragment, or scripture reference (e.g. <code>John 3:16</code>). The library updates instantly. The congregation never sees what you are typing or selecting.</p>
-          </div>
-          <div class="manual-step">
-            <span class="step-num">STEP 2.2</span>
-            <h4>Stage in Preview</h4>
-            <p>Click on any section (Verse 1, Chorus, Verse 2) in the parts browser. The slide loads immediately in the <strong>Preview</strong> pane with full formatting for private operator review.</p>
-          </div>
-          <div class="manual-step">
-            <span class="step-num">STEP 2.3</span>
-            <h4>Take to Live</h4>
-            <p>When the vocalists arrive at the lyric, press the big <strong>TAKE</strong> button or hit <kbd>Space</kbd>. The slide transitions to Live. The previous slide remains staged in Preview if you need to bounce back.</p>
-          </div>
+          <h3 data-i18n="s2_t">Stage it privately</h3>
+          <p data-i18n="s2_b">Type a title, a line of a lyric or a reference like John 3:16. Click the section you want and it loads into Preview, where only you can see it.</p>
         </div>
       </div>
-
-      <!-- 3. Keyboard Shortcuts -->
-      <div class="manual-pane" id="pane-keys" role="tabpanel" aria-labelledby="tab-keys" hidden>
+      <div class="step">
+        <span class="num" aria-hidden="true">03</span>
         <div>
-          <h3>Operator Keyboard Shortcut Matrix</h3>
-          <p class="fine" style="margin-top:4px">Run the entire worship service without lifting your hands from the keyboard.</p>
+          <h3 data-i18n="s3_t">Take it live</h3>
+          <p data-i18n="s3_b">Press Take when the band reaches the line. Whatever was live drops back into Preview, so going back a slide is one press rather than another search.</p>
         </div>
-        <div style="overflow-x:auto">
+      </div>
+    </div>
+
+    <div class="kbd-row">
+      <b data-i18n="kbd_all">Every key you can press</b>
+      <details class="kbd-ref">
+        <summary data-i18n="kbd_ref">Keyboard reference</summary>
+        <div class="kbd-body" style="overflow-x:auto">
           <table class="kbd-table">
             <thead>
               <tr>
-                <th scope="col">Keystroke</th>
-                <th scope="col">Action</th>
-                <th scope="col">Operating Context</th>
+                <th scope="col" data-i18n="th_key">Key</th>
+                <th scope="col" data-i18n="th_action">Action</th>
+                <th scope="col" data-i18n="th_context">Context</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td><kbd>Space</kbd></td>
-                <td><strong>TAKE</strong></td>
-                <td>Swaps Preview with Live instantly.</td>
+                <td><strong data-i18n="k1_a">Take</strong></td>
+                <td data-i18n="k1_b">Swaps Preview with Live.</td>
               </tr>
               <tr>
                 <td><kbd>0</kbd></td>
-                <td><strong>Jump to Chorus</strong></td>
-                <td>Immediately selects and stages the current song's Chorus.</td>
+                <td><strong data-i18n="k2_a">Chorus</strong></td>
+                <td data-i18n="k2_b">Stages the chorus of the live song.</td>
               </tr>
               <tr>
                 <td><kbd>1</kbd> &ndash; <kbd>9</kbd></td>
-                <td><strong>Jump to Verse 1&ndash;9</strong></td>
-                <td>Direct numeric jump to the matching numbered verse in the active song.</td>
+                <td><strong data-i18n="k3_a">Verse 1&ndash;9</strong></td>
+                <td data-i18n="k3_b">Jumps to the matching numbered verse.</td>
               </tr>
               <tr>
                 <td><kbd>&larr;</kbd> / <kbd>&rarr;</kbd></td>
-                <td><strong>Step Slides</strong></td>
-                <td>Steps backward or forward through the current song arrangement or scripture passage.</td>
+                <td><strong data-i18n="k4_a">Step slides</strong></td>
+                <td data-i18n="k4_b">Moves back or forward through the arrangement or passage.</td>
               </tr>
               <tr>
                 <td><kbd>Ctrl + K</kbd></td>
-                <td><strong>QuickFind HUD</strong></td>
-                <td>Opens global emergency search modal across all songs and scripture.</td>
+                <td><strong data-i18n="k5_a">QuickFind</strong></td>
+                <td data-i18n="k5_b">Opens search over all songs and scripture.</td>
               </tr>
               <tr>
-                <td><kbd>Enter</kbd> (in QuickFind)</td>
-                <td><strong>Stage Safely</strong></td>
-                <td>Loads chosen item into Preview without projecting.</td>
+                <td><kbd>Enter</kbd></td>
+                <td><strong data-i18n="k6_a">Stage</strong></td>
+                <td data-i18n="k6_b">In QuickFind, loads the item into Preview without projecting.</td>
               </tr>
               <tr>
                 <td><kbd>Shift + Enter</kbd></td>
-                <td><strong>Panic Live Project</strong></td>
-                <td>Projects selected QuickFind item directly to Live (for spontaneous pastor requests).</td>
+                <td><strong data-i18n="k7_a">Send live</strong></td>
+                <td data-i18n="k7_b">In QuickFind, projects the item straight to Live.</td>
               </tr>
               <tr>
                 <td><kbd>B</kbd></td>
-                <td><strong>Blackout Toggle</strong></td>
-                <td>Cuts the Live output to pure black instantly.</td>
+                <td><strong data-i18n="k8_a">Blackout</strong></td>
+                <td data-i18n="k8_b">Cuts the live output to black.</td>
               </tr>
               <tr>
                 <td><kbd>C</kbd></td>
-                <td><strong>Clear Text</strong></td>
-                <td>Clears lyrics/scripture while preserving background motion graphics.</td>
+                <td><strong data-i18n="k9_a">Clear text</strong></td>
+                <td data-i18n="k9_b">Clears the words, keeps the background.</td>
               </tr>
               <tr>
                 <td><kbd>L</kbd></td>
-                <td><strong>Logo Screen</strong></td>
-                <td>Restores the default church emblem screen.</td>
+                <td><strong data-i18n="k10_a">Logo</strong></td>
+                <td data-i18n="k10_b">Shows the church logo screen.</td>
               </tr>
               <tr>
                 <td><kbd>F</kbd></td>
-                <td><strong>Fullscreen Toggle</strong></td>
-                <td>Toggles borderless fullscreen on Projector and Stage Monitor displays.</td>
+                <td><strong data-i18n="k11_a">Fullscreen</strong></td>
+                <td data-i18n="k11_b">Toggles fullscreen on the projector and stage windows.</td>
               </tr>
               <tr>
                 <td><kbd>Ctrl + Z</kbd> / <kbd>Ctrl + Y</kbd></td>
-                <td><strong>Undo / Redo</strong></td>
-                <td>Reverses or restores accidental schedule and staging modifications.</td>
+                <td><strong data-i18n="k12_a">Undo / Redo</strong></td>
+                <td data-i18n="k12_b">Reverses or restores schedule and staging edits.</td>
               </tr>
             </tbody>
           </table>
         </div>
-      </div>
-
-      <!-- 4. Displays -->
-      <div class="manual-pane" id="pane-displays" role="tabpanel" aria-labelledby="tab-displays" hidden>
-        <div>
-          <h3>Multi-Window Sanctuary &amp; Stage Display Setup</h3>
-          <p class="fine" style="margin-top:4px">Connecting and configuring secondary screens for congregation and musicians.</p>
-        </div>
-        <div class="manual-steps">
-          <div class="manual-step">
-            <span class="step-num">STEP 4.1</span>
-            <h4>Connect Physical Displays</h4>
-            <p>Connect your Sanctuary projector via HDMI/DisplayPort and your stage confidence TV via secondary output. In Windows or macOS settings, configure displays in <strong>Extend</strong> mode (not Mirror).</p>
-          </div>
-          <div class="manual-step">
-            <span class="step-num">STEP 4.2</span>
-            <h4>Assign Output Windows</h4>
-            <p>Open <strong>Settings &gt; Displays &amp; Output</strong> in Kairos. Assign <strong>Projector Window</strong> to Display 2, and <strong>Presenter Window</strong> to Display 3. Press <kbd>F</kbd> inside either window to snap to full screen.</p>
-          </div>
-          <div class="manual-step">
-            <span class="step-num">STEP 4.3</span>
-            <h4>Customize Confidence Cues</h4>
-            <p>The Presenter view automatically renders upcoming next-slide lyrics, musical chords (from ChordPro imports), and the live service time. Musicians never lose their place.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. Remote -->
-      <div class="manual-pane" id="pane-remote" role="tabpanel" aria-labelledby="tab-remote" hidden>
-        <div>
-          <h3>Wireless Mobile Remote Pairing</h3>
-          <p class="fine" style="margin-top:4px">Control slides from an iPad on a music stand or check stage cues from an iPhone.</p>
-        </div>
-        <div class="manual-steps">
-          <div class="manual-step">
-            <span class="step-num">STEP 5.1</span>
-            <h4>Enable Remote on Local Wi-Fi</h4>
-            <p>In Kairos, open <strong>Settings &gt; Remote</strong> and toggle <em>"Allow phones on this network"</em>. Kairos enables immediate wireless connectivity across your sanctuary network.</p>
-          </div>
-          <div class="manual-step">
-            <span class="step-num">STEP 5.2</span>
-            <h4>Scan Pairing QR Code</h4>
-            <p>Scan the on-screen QR code using any smartphone or tablet camera. The browser opens the Kairos web remote instantly. No App Store download or account registration required.</p>
-          </div>
-          <div class="manual-step">
-            <span class="step-num">STEP 5.3</span>
-            <h4>Role-Based Access</h4>
-            <p>Generate a <strong>Controller Token</strong> (<code>KRS-XXXX</code>) for AV leaders to advance slides and trigger Blackout, or a <strong>Viewer Token</strong> (<code>KRV-XXXX</code>) for band members to view read-only confidence slides.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 6. Reports & Safety -->
-      <div class="manual-pane" id="pane-reports" role="tabpanel" aria-labelledby="tab-reports" hidden>
-        <div>
-          <h3>Usage Reporting &amp; Automatic Backups</h3>
-          <p class="fine" style="margin-top:4px">Automatic legal compliance and zero-panic data integrity.</p>
-        </div>
-        <div class="manual-steps">
-          <div class="manual-step">
-            <span class="step-num">STEP 6.1</span>
-            <h4>Automatic Song Auditing</h4>
-            <p>Every time a song is projected Live, Kairos records the song title, copyright metadata, author, and exact timestamp to the local usage log.</p>
-          </div>
-          <div class="manual-step">
-            <span class="step-num">STEP 6.2</span>
-            <h4>Export Usage CSV</h4>
-            <p>When reporting time arrives, open <strong>Settings &gt; Reports &amp; Logs</strong> and click <strong>Download Song Usage CSV</strong>. The exported file matches the exact column format needed for church copyright and licensing reporting.</p>
-          </div>
-          <div class="manual-step">
-            <span class="step-num">STEP 6.3</span>
-            <h4>Automatic Daily Snapshots</h4>
-            <p>Your library is safely saved after every action. Every day the app runs, it automatically saves a timestamped snapshot to <code>backups/</code>, ensuring you can never lose your library.</p>
-          </div>
-        </div>
-      </div>
+      </details>
     </div>
   </div>
 </section>
 
-<!-- Themes Section -->
+<!-- 04 / Themes -->
 <section class="band band-alt" id="themes">
   <div class="wrap">
     <div class="head">
-      <p class="eyebrow">Operator Ergonomics</p>
-      <h2>Three looks for three kinds of rooms</h2>
-      <p class="lede">The exact same high-speed workspace rendered in three tailored color palettes. Switch anytime with zero restart.</p>
+      <p class="eyebrow" data-i18n="th_eyebrow">04 / Themes</p>
+      <h2 data-i18n="th_title">Three looks for three kinds of rooms</h2>
+      <p class="lede" data-i18n="th_lede">The same workspace in three colour palettes. Switch any time without restarting.</p>
     </div>
     <div class="tcards">
       <div class="tcard">
@@ -1794,7 +1619,7 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
           </div>
         </div>
         <h3>Sanctuary Dark</h3>
-        <p>Low glare for the sound booth, where a bright monitor would bleed light into the congregation.</p>
+        <p data-i18n="tc1_b">Low glare for the sound booth, where a bright screen would wash into the room.</p>
       </div>
 
       <div class="tcard">
@@ -1807,7 +1632,7 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
           </div>
         </div>
         <h3>Cool Slate</h3>
-        <p>Crisp, high-contrast light mode designed for planning services in sunny church offices.</p>
+        <p data-i18n="tc2_b">High-contrast light mode for planning services in a sunny office.</p>
       </div>
 
       <div class="tcard">
@@ -1820,75 +1645,75 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
           </div>
         </div>
         <h3>Ministry Bold</h3>
-        <p>Larger typography and color-blocked status cards, ideal for youth rooms and portable setups.</p>
+        <p data-i18n="tc3_b">Bigger type and colour-blocked cards for youth rooms and portable rigs.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Pricing -->
+<!-- 05 / Pricing -->
 <section class="band" id="pricing">
   <div class="wrap">
     <div class="head">
-      <p class="eyebrow">Pricing Model</p>
-      <h2>Pay once. No forced subscriptions.</h2>
-      <p class="lede">Church ministry budgets should be predictable. Kairos is a one-time purchase with free minor and patch updates for life within your major version.</p>
+      <p class="eyebrow" data-i18n="pr_eyebrow">05 / Pricing</p>
+      <h2 data-i18n="pr_title">Pay once. Keep it.</h2>
+      <p class="lede" data-i18n="pr_lede">A one-time licence for your church. Minor updates and patches are free for the life of your version.</p>
     </div>
 
     <div class="pricing">
       <div class="plan">
-        <p class="nm">Kairos License</p>
+        <p class="nm" data-i18n="pr_plan">Kairos licence</p>
         <div>
-          <p class="amount pending" id="priceAmount">Price set at launch</p>
-          <p class="hint" id="priceNote">One-time payment &middot; Multi-computer sanctuary license</p>
+          <p class="amount pending" id="priceAmount" data-i18n="pr_price">Price set at launch</p>
+          <p class="hint" id="priceNote" data-i18n="pr_note">One-time payment &middot; multi-computer church licence</p>
         </div>
         <ul>
           <li>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>
-            <span>One payment. No monthly or annual recurring software fees.</span>
+            <span data-i18n="pr_li1">One payment. No monthly or annual fees.</span>
           </li>
           <li>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>
-            <span>Run on both Sanctuary projection PC and church office planning laptop.</span>
+            <span data-i18n="pr_li2">Runs on the booth computer and the office laptop.</span>
           </li>
           <li>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>
-            <span>Every minor and patch update is completely free.</span>
+            <span data-i18n="pr_li3">Every minor and patch update is free.</span>
           </li>
           <li>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>
-            <span>Access is currently by invitation / request. Fill in the form below.</span>
+            <span data-i18n="pr_li4">Access is by request for now — use the form below.</span>
           </li>
         </ul>
-        <a class="btn btn-primary" href="#request">Request access</a>
+        <a class="btn btn-primary" href="#request" data-i18n="nav_request">Request access</a>
       </div>
 
       <div class="vt">
         <table>
-          <caption>How updates are priced</caption>
-          <thead><tr><th scope="col">Update Level</th><th scope="col">Example</th><th scope="col">What changes</th><th scope="col">Cost</th></tr></thead>
+          <caption data-i18n="upt_cap">How updates are priced</caption>
+          <thead><tr><th scope="col" data-i18n="upt_h1">Update</th><th scope="col" data-i18n="upt_h2">Example</th><th scope="col" data-i18n="upt_h3">What changes</th><th scope="col" data-i18n="upt_h4">Cost</th></tr></thead>
           <tbody>
             <tr>
-              <th scope="row" style="text-transform:none;letter-spacing:0;font:600 1rem var(--sans);color:var(--ink)">Patch</th>
+              <th scope="row" style="text-transform:none;letter-spacing:0;font:600 1rem var(--sans);color:var(--ink)" data-i18n="upt_patch">Patch</th>
               <td class="mono">1.0.1</td>
-              <td>Bug fixes, stability improvements, minor performance patches</td>
-              <td class="cost-free">Free</td>
+              <td data-i18n="upt_patch_b">Bug fixes and stability</td>
+              <td class="cost-free" data-i18n="upt_free">Free</td>
             </tr>
             <tr>
-              <th scope="row" style="text-transform:none;letter-spacing:0;font:600 1rem var(--sans);color:var(--ink)">Minor</th>
+              <th scope="row" style="text-transform:none;letter-spacing:0;font:600 1rem var(--sans);color:var(--ink)" data-i18n="upt_minor">Minor</th>
               <td class="mono">1.1</td>
-              <td>New capabilities, new Bible translations, feature upgrades</td>
-              <td class="cost-free">Free</td>
+              <td data-i18n="upt_minor_b">New features and Bible translations</td>
+              <td class="cost-free" data-i18n="upt_free2">Free</td>
             </tr>
             <tr>
-              <th scope="row" style="text-transform:none;letter-spacing:0;font:600 1rem var(--sans);color:var(--ink)">Major</th>
+              <th scope="row" style="text-transform:none;letter-spacing:0;font:600 1rem var(--sans);color:var(--ink)" data-i18n="upt_major">Major</th>
               <td class="mono">2.0</td>
-              <td>A new generation of Kairos architecture</td>
-              <td class="cost-paid" id="majorCost">Discounted upgrade</td>
+              <td data-i18n="upt_major_b">A new generation of Kairos</td>
+              <td class="cost-paid" id="majorCost" data-i18n="upt_major_c">Discounted upgrade</td>
             </tr>
           </tbody>
         </table>
-        <p class="fine">The first number of the version is the major version. Existing license holders receive substantial discounts on major generation upgrades.</p>
+        <p class="fine" data-i18n="upt_fine">Existing licence holders receive a substantial discount on major upgrades.</p>
       </div>
     </div>
   </div>
@@ -1899,16 +1724,16 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
   <div class="wrap req">
     <div>
       <div class="head" style="margin-bottom:28px">
-        <p class="eyebrow">Request Access</p>
-        <h2>Tell us about your church</h2>
-        <p class="lede">Kairos is currently distributed directly to ministry partners. Tell us a bit about your team and setup, and we will send download links and activation instructions.</p>
+        <p class="eyebrow" data-i18n="rq_eyebrow">Request access</p>
+        <h2 data-i18n="rq_title">Tell us about your church</h2>
+        <p class="lede" data-i18n="rq_lede">Kairos is distributed directly to churches for now. Tell us about your team and setup and we will send the installer and activation steps.</p>
       </div>
 
       <form id="reqForm" novalidate aria-label="Request access to Kairos">
         <div class="row2">
           <div class="field">
-            <label for="f-name">Your name</label>
-            <input id="f-name" name="name" type="text" autocomplete="name" aria-describedby="e-name" placeholder="Pastor or AV Director">
+            <label for="f-name" data-i18n="fm_name">Your name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" aria-describedby="e-name" data-i18n-ph="fm_name_ph" placeholder="Pastor or AV director">
             <p class="err" id="e-name"></p>
           </div>
           <div class="field">
@@ -1918,119 +1743,119 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
           </div>
         </div>
         <div class="field">
-          <label for="f-org">Church or organization</label>
+          <label for="f-org" data-i18n="fm_org">Church or organization</label>
           <input id="f-org" name="organization" type="text" autocomplete="organization" aria-describedby="e-org" placeholder="Grace Community Fellowship">
           <p class="err" id="e-org"></p>
         </div>
         <div class="field">
-          <label for="f-role">Your role</label>
+          <label for="f-role" data-i18n="fm_role">Your role</label>
           <select id="f-role" name="role" aria-describedby="e-role">
-            <option value="">Choose one</option>
-            <option>Worship Leader / Music Director</option>
-            <option>Media / AV Team Volunteer</option>
-            <option>Senior Pastor / Teaching Pastor</option>
-            <option>Church Administrator</option>
-            <option>Other Ministry Staff</option>
+            <option value="" data-i18n="fm_choose">Choose one</option>
+            <option data-i18n="fm_role1">Worship leader / music director</option>
+            <option data-i18n="fm_role2">Media / AV team volunteer</option>
+            <option data-i18n="fm_role3">Senior pastor / teaching pastor</option>
+            <option data-i18n="fm_role4">Church administrator</option>
+            <option data-i18n="fm_role5">Other ministry staff</option>
           </select>
           <p class="err" id="e-role"></p>
         </div>
         <fieldset aria-describedby="e-os">
-          <legend class="legend">Computer in your AV booth</legend>
+          <legend class="legend" data-i18n="fm_platform">Computer in your AV booth</legend>
           <div class="opts">
             <label class="opt"><input type="radio" name="platform" value="Windows" id="f-os-win"> Windows 10/11</label>
             <label class="opt"><input type="radio" name="platform" value="macOS" id="f-os-mac"> Apple macOS</label>
-            <label class="opt"><input type="radio" name="platform" value="Windows and macOS" id="f-os-both"> Both (PC in booth, Mac at home)</label>
+            <label class="opt"><input type="radio" name="platform" value="Windows and macOS" id="f-os-both"> <span data-i18n="fm_both">Both</span></label>
           </div>
           <p class="err" id="e-os"></p>
         </fieldset>
         <div class="field">
-          <label for="f-note">Tell us about your current presentation software <span class="hint">(optional)</span></label>
-          <textarea id="f-note" name="note" placeholder="Currently using ProPresenter, EasyWorship, or PowerPoint? What pain points do you face?"></textarea>
+          <label for="f-note"><span data-i18n="fm_note">Your current presentation software</span> <span class="hint" data-i18n="fm_optional">(optional)</span></label>
+          <textarea id="f-note" name="note" data-i18n-ph="fm_note_ph" placeholder="ProPresenter, EasyWorship, PowerPoint? What gets in your way?"></textarea>
         </div>
         <div class="field">
           <label class="consent" for="f-consent">
             <input id="f-consent" name="consent" type="checkbox" aria-describedby="e-consent">
-            <span>I agree to receive download access and onboarding communication from the Kairos team.</span>
+            <span data-i18n="fm_consent">I agree to receive download access and onboarding email from the Kairos team.</span>
           </label>
           <p class="err" id="e-consent"></p>
         </div>
         <div>
-          <button class="btn btn-primary" type="submit" id="sendBtn">Send request</button>
+          <button class="btn btn-primary" type="submit" id="sendBtn" data-i18n="fm_submit">Send request</button>
         </div>
       </form>
 
       <div id="resultBox" hidden style="margin-top:20px"></div>
     </div>
 
-    <aside aria-label="What happens next">
-      <h3 style="margin-bottom:20px">What happens next</h3>
+    <aside data-i18n-aria="next_title" aria-label="What happens next">
+      <h3 style="margin-bottom:20px" data-i18n="next_title">What happens next</h3>
       <ol class="next">
         <li>
           <span class="n">1</span>
           <div>
-            <b>Submit request</b>
-            <span>Takes under 60 seconds with no credit card required.</span>
+            <b data-i18n="next1_t">We reply personally</b>
+            <span data-i18n="next1_b">You get the installer for your system and an activation key.</span>
           </div>
         </li>
         <li>
           <span class="n">2</span>
           <div>
-            <b>Personalized onboarding email</b>
-            <span>We send the installer package for your operating system and early activation key.</span>
+            <b data-i18n="next2_t">Import your library</b>
+            <span data-i18n="next2_b">ChordPro and plain-text songs come in with chords and sections intact.</span>
           </div>
         </li>
         <li>
           <span class="n">3</span>
           <div>
-            <b>Test with your Sunday team</b>
-            <span>Import your existing ChordPro and lyric libraries and test dual-screen output in rehearsal.</span>
+            <b data-i18n="next3_t">Rehearse on both screens</b>
+            <span data-i18n="next3_b">Test the projector and stage monitor with your team before Sunday.</span>
           </div>
         </li>
       </ol>
-      <p class="fine" id="contactLine" hidden style="margin-top:24px">Questions first? Reach us at <span id="contactEmail"></span>.</p>
+      <p class="fine" id="contactLine" hidden style="margin-top:24px"><span data-i18n="next_contact">Questions first? Reach us at</span> <span id="contactEmail"></span>.</p>
     </aside>
   </div>
 </section>
 
-<!-- Comprehensive FAQ -->
+<!-- 06 / FAQ -->
 <section class="band" id="faq">
   <div class="wrap">
     <div class="head">
-      <p class="eyebrow">Frequently Asked Questions</p>
-      <h2>Common questions before you switch</h2>
+      <p class="eyebrow" data-i18n="fa_eyebrow">06 / FAQ</p>
+      <h2 data-i18n="fa_title">Common questions before you switch</h2>
     </div>
     <div class="faq">
       <details>
-        <summary>How does the dual-display output work with secondary monitors?</summary>
-        <p>Kairos creates separate dedicated windows for the Sanctuary Projector and Stage Confidence Monitor. In the Settings &gt; Displays menu, you simply select which physical display adapter receives which output. Once assigned, Kairos remembers the configuration and restores full screen automatically on launch.</p>
+        <summary data-i18n="q1_t">How does the dual display work?</summary>
+        <p data-i18n="q1_b">Kairos opens a separate window for the sanctuary projector and one for the stage monitor. You pick which physical screen each one uses, and the app remembers it and reopens full screen.</p>
       </details>
       <details>
-        <summary>Do I need an active internet connection on Sunday morning?</summary>
-        <p>No. Kairos is built completely local-first. Your entire song library, Bible translations (31,102 verses), service plans, and presentation settings are stored locally on your own computer. Sunday services never fail because of church Wi-Fi dropouts.</p>
+        <summary data-i18n="q2_t">Do I need internet on Sunday morning?</summary>
+        <p data-i18n="q2_b">No. Songs, Bibles, plans and settings live on your computer. A Wi-Fi dropout cannot stop the service.</p>
       </details>
       <details>
-        <summary>Can worship leaders or musicians use an iPad as a wireless remote?</summary>
-        <p>Yes! Kairos includes a built-in wireless remote feature. When enabled, anyone on the sanctuary's local Wi-Fi can scan the QR code to open the remote in Safari or Chrome. Operators can grant full Controller access or read-only Stage Monitor Viewer access.</p>
+        <summary data-i18n="q3_t">Can the band use a phone or tablet as a remote?</summary>
+        <p data-i18n="q3_b">Yes. Anyone on the church Wi-Fi scans a QR code and opens the remote in the browser, either as a controller or as a read-only stage monitor.</p>
       </details>
       <details>
-        <summary>Can a new volunteer run the service with zero prior training?</summary>
-        <p>Yes. That is the core design principle behind the 3-zone switcher. Searching and clicking around never touches the projector. Staging a slide in Preview lets the volunteer double-check the lyrics privately. A single tap on the Spacebar takes it Live.</p>
+        <summary data-i18n="q4_t">Can a new volunteer run it without training?</summary>
+        <p data-i18n="q4_b">Yes. Searching never touches the screen, the preview is private, and one press on Space sends the slide live.</p>
       </details>
       <details>
-        <summary>How does song usage and copyright reporting work?</summary>
-        <p>Kairos tracks every song taken Live into a local usage log. At the end of the month or quarter, go to Settings &gt; Reports &amp; Logs and click "Download Song Usage CSV". The file format is directly organized for copyright compliance and song usage reporting.</p>
+        <summary data-i18n="q5_t">How does copyright reporting work?</summary>
+        <p data-i18n="q5_b">Every song taken live is written to a usage log. When the reporting comes round, export the CSV.</p>
       </details>
       <details>
-        <summary>Can I import our existing ChordPro and text song files?</summary>
-        <p>Yes. Kairos includes high-speed importers for ChordPro (.cho, .chopro, .chordpro, .crd, .pro) and plain text lyrics. It automatically parses chords, detects song sections (Verse, Chorus, Bridge), and automatically detects duplicate songs.</p>
+        <summary data-i18n="q6_t">Can I import ChordPro and text files?</summary>
+        <p data-i18n="q6_b">Yes. Chords, sections and duplicates are detected automatically during import.</p>
       </details>
       <details>
-        <summary>What operating systems are supported?</summary>
-        <p>Kairos runs natively on 64-bit Windows 10/11 and macOS (both Apple Silicon M1/M2/M3 and Intel). A native Linux build is scheduled for release following the Windows/macOS rollout.</p>
+        <summary data-i18n="q7_t">Which operating systems are supported?</summary>
+        <p data-i18n="q7_b">Windows 10/11 and macOS, Apple Silicon and Intel. A Linux build follows later.</p>
       </details>
       <details>
-        <summary>What is your policy on software licenses and recurring subscriptions?</summary>
-        <p>You pay once for a perpetual license for the major version purchased. There are no monthly subscriptions, no seat fees, and all minor feature updates and stability patches are provided free of charge.</p>
+        <summary data-i18n="q8_t">Is it a subscription?</summary>
+        <p data-i18n="q8_b">No. You pay once for the licence, and minor updates and patches are free.</p>
       </details>
     </div>
   </div>
@@ -2043,7 +1868,7 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
     <div class="foot">
       <div>
         <p class="verse">
-          &ldquo;The time is fulfilled, and the kingdom of God is at hand.&rdquo;
+          <span data-i18n="ft_verse">&ldquo;The time is fulfilled, and the kingdom of God is at hand.&rdquo;</span>
           <small>Mark 1:15 &middot; <span lang="el">Πεπλήρωται ὁ καιρός</span></small>
         </p>
         <div class="foot-logo" style="margin-top:28px">
@@ -2051,15 +1876,16 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
         </div>
       </div>
       <ul>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#how">How It Works</a></li>
-        <li><a href="#manual">Operator Guide</a></li>
-        <li><a href="#pricing">Pricing &amp; Updates</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#request">Request Access</a></li>
+        <li><a href="#workspace" data-i18n="ft_ws">The workspace</a></li>
+        <li><a href="#features" data-i18n="nav_features">Features</a></li>
+        <li><a href="#how" data-i18n="nav_how">How it works</a></li>
+        <li><a href="#themes" data-i18n="nav_themes">Themes</a></li>
+        <li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
+        <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
+        <li><a href="#request" data-i18n="nav_request">Request access</a></li>
       </ul>
     </div>
-    <p class="legal">&copy; 2026 Kairos Worship Technologies. Built by <a href="mailto:nmbuyi@proton.me">Orman Neville Mbuyi</a>.</p>
+    <p class="legal">&copy; 2026 Kairos Worship Technologies. <span data-i18n="ft_built">Built by</span> <a href="mailto:nmbuyi@proton.me">Orman Neville Mbuyi</a>.</p>
   </div>
 </footer>
 
@@ -2081,6 +1907,215 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
     if (text != null) e.textContent = text;
     return e;
   }
+
+  /* ---- Language (EN/FR) ---- */
+  var STRINGS = {
+    en: {
+      nav_how: 'How it works', nav_features: 'Features', nav_themes: 'Themes', nav_pricing: 'Pricing', nav_faq: 'FAQ', nav_request: 'Request access',
+      hero_eyebrow: 'The appointed time',
+      hero_title: 'Nothing reaches the screen by accident.',
+      hero_lede: 'Kairos is presentation software for church services. Plan the running order, search songs and scripture with no internet, check every slide privately, then take it live yourself. Runs on Windows and macOS, and you pay once.',
+      btn_request: 'Request access', btn_try: 'Try the switcher',
+      pill_os: 'Windows and macOS', pill_dual: 'Projector plus stage monitor', pill_offline: 'Works with no internet', pill_remote: 'Phone remote over Wi-Fi',
+      ws_eyebrow: '01 / The workspace', ws_title: 'Try the switcher before you commit',
+      ws_lede: 'A working sample of the Sunday workflow. Search the library, click a section to stage it, then press Take. Click the workspace once and the keyboard works too: Space takes, B blacks out, C clears the words, L shows the logo.',
+      ws_theme_label: 'Operator theme',
+      f_eyebrow: '02 / Features', f_title: 'Built for the people who run it',
+      f_lede: 'Kairos is opinionated about one thing: whoever is pressing the keys should never have to explain a mistake to the congregation.',
+      f1_t: 'Two outputs, one operator', f1_b: 'The sanctuary projector and the stage confidence monitor are separate windows. The room gets lyrics; the band gets chords, the slide that is up next and the running service clock.',
+      f2_t: 'Three zones, no accidents', f2_b: 'Search, preview and live stay apart. Everything you type and click lands in the library or the preview pane, and only Take puts it on the screen.',
+      f3_t: 'Jumps for a leader who changes the plan', f3_b: 'Press 0 for the chorus, 1 to 9 for numbered verses, arrows to step through the arrangement. It works from the live pane while the song is already on screen.',
+      f4_t: 'Songs and scripture, entirely offline', f4_b: '1,696 worship songs and the full King James Bible, searchable by any line of text with no internet. Import ChordPro or plain-text lyrics and Kairos finds the duplicates in your library.',
+      f5_t: 'A schedule drawn to scale', f5_b: 'Enter the planned minutes and every block is drawn at that width against your finish time. Duplicate last Sunday in one click, or keep templates for midweek and youth.',
+      f6_t: 'A phone as the remote', f6_b: 'Scan a QR code and any phone or tablet on the church Wi-Fi becomes a controller or a read-only stage monitor. Nothing to install and no account to make.',
+      f7_t: 'Panic keys that always answer', f7_b: 'B blacks the screen out, C clears the words and holds the background, L puts the church logo up. One key each, no menus, no mouse.',
+      f8_t: 'A usage log for copyright reporting', f8_b: 'Every song that goes live is logged with its author and timestamp. Export a CSV when the reporting comes round, and Kairos keeps a daily snapshot of your library.',
+      hw_eyebrow: '03 / How it works', hw_title: 'Three moves, every Sunday',
+      hw_lede: 'There is no mode to remember and no settings screen standing between you and the next song.',
+      s1_t: 'Plan the order', s1_b: 'Start from last Sunday or a template, then set the songs, readings and the time you want to finish. Every item is drawn at the width of its planned minutes, so you can see where the time is going.',
+      s2_t: 'Stage it privately', s2_b: 'Type a title, a line of a lyric or a reference like John 3:16. Click the section you want and it loads into Preview, where only you can see it.',
+      s3_t: 'Take it live', s3_b: 'Press Take when the band reaches the line. Whatever was live drops back into Preview, so going back a slide is one press rather than another search.',
+      kbd_all: 'Every key you can press', kbd_ref: 'Keyboard reference',
+      th_key: 'Key', th_action: 'Action', th_context: 'Context',
+      k1_a: 'Take', k1_b: 'Swaps Preview with Live.',
+      k2_a: 'Chorus', k2_b: 'Stages the chorus of the live song.',
+      k3_a: 'Verse 1–9', k3_b: 'Jumps to the matching numbered verse.',
+      k4_a: 'Step slides', k4_b: 'Moves back or forward through the arrangement or passage.',
+      k5_a: 'QuickFind', k5_b: 'Opens search over all songs and scripture.',
+      k6_a: 'Stage', k6_b: 'In QuickFind, loads the item into Preview without projecting.',
+      k7_a: 'Send live', k7_b: 'In QuickFind, projects the item straight to Live.',
+      k8_a: 'Blackout', k8_b: 'Cuts the live output to black.',
+      k9_a: 'Clear text', k9_b: 'Clears the words, keeps the background.',
+      k10_a: 'Logo', k10_b: 'Shows the church logo screen.',
+      k11_a: 'Fullscreen', k11_b: 'Toggles fullscreen on the projector and stage windows.',
+      k12_a: 'Undo / Redo', k12_b: 'Reverses or restores schedule and staging edits.',
+      th_eyebrow: '04 / Themes', th_title: 'Three looks for three kinds of rooms',
+      th_lede: 'The same workspace in three colour palettes. Switch any time without restarting.',
+      tc1_b: 'Low glare for the sound booth, where a bright screen would wash into the room.',
+      tc2_b: 'High-contrast light mode for planning services in a sunny office.',
+      tc3_b: 'Bigger type and colour-blocked cards for youth rooms and portable rigs.',
+      pr_eyebrow: '05 / Pricing', pr_title: 'Pay once. Keep it.',
+      pr_lede: 'A one-time licence for your church. Minor updates and patches are free for the life of your version.',
+      pr_plan: 'Kairos licence', pr_price: 'Price set at launch', pr_note: 'One-time payment · multi-computer church licence',
+      pr_li1: 'One payment. No monthly or annual fees.',
+      pr_li2: 'Runs on the booth computer and the office laptop.',
+      pr_li3: 'Every minor and patch update is free.',
+      pr_li4: 'Access is by request for now — use the form below.',
+      upt_cap: 'How updates are priced', upt_h1: 'Update', upt_h2: 'Example', upt_h3: 'What changes', upt_h4: 'Cost',
+      upt_patch: 'Patch', upt_patch_b: 'Bug fixes and stability', upt_free: 'Free', upt_free2: 'Free',
+      upt_minor: 'Minor', upt_minor_b: 'New features and Bible translations',
+      upt_major: 'Major', upt_major_b: 'A new generation of Kairos', upt_major_c: 'Discounted upgrade',
+      upt_fine: 'Existing licence holders receive a substantial discount on major upgrades.',
+      rq_eyebrow: 'Request access', rq_title: 'Tell us about your church',
+      rq_lede: 'Kairos is distributed directly to churches for now. Tell us about your team and setup and we will send the installer and activation steps.',
+      fm_name: 'Your name', fm_name_ph: 'Pastor or AV director', fm_org: 'Church or organization', fm_role: 'Your role', fm_choose: 'Choose one',
+      fm_role1: 'Worship leader / music director', fm_role2: 'Media / AV team volunteer', fm_role3: 'Senior pastor / teaching pastor', fm_role4: 'Church administrator', fm_role5: 'Other ministry staff',
+      fm_platform: 'Computer in your AV booth', fm_both: 'Both',
+      fm_note: 'Your current presentation software', fm_optional: '(optional)', fm_note_ph: 'ProPresenter, EasyWorship, PowerPoint? What gets in your way?',
+      fm_consent: 'I agree to receive download access and onboarding email from the Kairos team.', fm_submit: 'Send request',
+      next_title: 'What happens next',
+      next1_t: 'We reply personally', next1_b: 'You get the installer for your system and an activation key.',
+      next2_t: 'Import your library', next2_b: 'ChordPro and plain-text songs come in with chords and sections intact.',
+      next3_t: 'Rehearse on both screens', next3_b: 'Test the projector and stage monitor with your team before Sunday.',
+      next_contact: 'Questions first? Reach us at',
+      fa_eyebrow: '06 / FAQ', fa_title: 'Common questions before you switch',
+      q1_t: 'How does the dual display work?', q1_b: 'Kairos opens a separate window for the sanctuary projector and one for the stage monitor. You pick which physical screen each one uses, and the app remembers it and reopens full screen.',
+      q2_t: 'Do I need internet on Sunday morning?', q2_b: 'No. Songs, Bibles, plans and settings live on your computer. A Wi-Fi dropout cannot stop the service.',
+      q3_t: 'Can the band use a phone or tablet as a remote?', q3_b: 'Yes. Anyone on the church Wi-Fi scans a QR code and opens the remote in the browser, either as a controller or as a read-only stage monitor.',
+      q4_t: 'Can a new volunteer run it without training?', q4_b: 'Yes. Searching never touches the screen, the preview is private, and one press on Space sends the slide live.',
+      q5_t: 'How does copyright reporting work?', q5_b: 'Every song taken live is written to a usage log. When the reporting comes round, export the CSV.',
+      q6_t: 'Can I import ChordPro and text files?', q6_b: 'Yes. Chords, sections and duplicates are detected automatically during import.',
+      q7_t: 'Which operating systems are supported?', q7_b: 'Windows 10/11 and macOS, Apple Silicon and Intel. A Linux build follows later.',
+      q8_t: 'Is it a subscription?', q8_b: 'No. You pay once for the licence, and minor updates and patches are free.',
+      ft_verse: '“The time is fulfilled, and the kingdom of God is at hand.”', ft_ws: 'The workspace', ft_built: 'Built by',
+      err_name: 'Please enter your name.', err_email: 'Please enter your email address.', err_email_bad: 'Please enter a valid email address (e.g. name@church.org).',
+      err_org: 'Please enter your church or organization name.', err_role: 'Please choose your primary role.', err_os: 'Please select the operating system used in your AV booth.', err_consent: 'Please check this box to receive your access invite.',
+      mail_btn: 'Open email client again', mail_title: 'Opening your email application',
+      mail_body: 'Your request has been prepared and addressed to {EMAIL}. If your email client does not open automatically, click the button below to send your request.'
+    },
+    fr: {
+      nav_how: 'Comment ça marche', nav_features: 'Fonctionnalités', nav_themes: 'Thèmes', nav_pricing: 'Tarifs', nav_faq: 'FAQ', nav_request: 'Demander l’accès',
+      hero_eyebrow: 'Le moment choisi',
+      hero_title: 'Rien n’arrive à l’écran par accident.',
+      hero_lede: 'Kairos est un logiciel de présentation pour les services d’église. Planifiez le déroulé, recherchez chants et Écritures sans internet, vérifiez chaque diapositive en privé, puis passez-la au direct vous-même. Fonctionne sous Windows et macOS, et vous payez une seule fois.',
+      btn_request: 'Demander l’accès', btn_try: 'Essayer le pupitre',
+      pill_os: 'Windows et macOS', pill_dual: 'Projecteur et moniteur de scène', pill_offline: 'Fonctionne sans internet', pill_remote: 'Télécommande par téléphone en Wi-Fi',
+      ws_eyebrow: '01 / L’espace de travail', ws_title: 'Essayez le pupitre avant de décider',
+      ws_lede: 'Un exemple fonctionnel du déroulé du dimanche. Cherchez dans la bibliothèque, cliquez sur une section pour la préparer, puis appuyez sur Take. Cliquez une fois dans l’espace et le clavier répond : Espace envoie, B passe au noir, C efface les mots, L affiche le logo.',
+      ws_theme_label: 'Thème de l’opérateur',
+      f_eyebrow: '02 / Fonctionnalités', f_title: 'Conçu pour ceux qui le font fonctionner',
+      f_lede: 'Kairos a une conviction : celui qui appuie sur les touches ne devrait jamais avoir à expliquer une erreur à l’assemblée.',
+      f1_t: 'Deux sorties, un opérateur', f1_b: 'Le projecteur de la salle et le moniteur de confiance de la scène sont des fenêtres séparées. La salle reçoit les paroles ; le groupe reçoit les accords, la prochaine diapositive et l’horloge du service.',
+      f2_t: 'Trois zones, aucun accident', f2_b: 'Recherche, aperçu et direct restent séparés. Tout ce que vous tapez et cliquez arrive dans la bibliothèque ou le volet d’aperçu, et seul Take l’affiche à l’écran.',
+      f3_t: 'Des raccourcis pour un chef qui change de plan', f3_b: 'Appuyez sur 0 pour le refrain, sur 1 à 9 pour les couplets numérotés, sur les flèches pour parcourir l’arrangement. Cela fonctionne depuis le volet direct pendant que le chant est déjà à l’écran.',
+      f4_t: 'Chants et Écritures, entièrement hors ligne', f4_b: '1 696 chants de louange et la Bible King James complète, consultables par n’importe quelle ligne de texte sans internet. Importez des paroles ChordPro ou texte brut et Kairos repère les doublons de votre bibliothèque.',
+      f5_t: 'Un planning dessiné à l’échelle', f5_b: 'Saisissez les minutes prévues et chaque bloc est dessiné à cette largeur par rapport à l’heure de fin. Dupliquez le dimanche dernier en un clic, ou gardez des modèles pour la semaine et les jeunes.',
+      f6_t: 'Un téléphone comme télécommande', f6_b: 'Scannez un code QR et n’importe quel téléphone ou tablette sur le Wi-Fi de l’église devient un contrôleur ou un moniteur de scène en lecture seule. Rien à installer et aucun compte à créer.',
+      f7_t: 'Des touches de secours qui répondent toujours', f7_b: 'B passe l’écran au noir, C efface les mots en gardant le fond, L affiche le logo de l’église. Une touche chacune, pas de menus, pas de souris.',
+      f8_t: 'Un journal d’utilisation pour les droits d’auteur', f8_b: 'Chaque chant projeté est enregistré avec son auteur et son horodatage. Exportez un CSV au moment des déclarations, et Kairos conserve chaque jour un instantané de votre bibliothèque.',
+      hw_eyebrow: '03 / Comment ça marche', hw_title: 'Trois gestes, chaque dimanche',
+      hw_lede: 'Aucun mode à retenir, aucun écran de réglages entre vous et le chant suivant.',
+      s1_t: 'Planifiez l’ordre', s1_b: 'Partez du dimanche dernier ou d’un modèle, puis définissez les chants, les lectures et l’heure de fin souhaitée. Chaque élément est dessiné à la largeur de ses minutes prévues, pour voir où passe le temps.',
+      s2_t: 'Préparez en privé', s2_b: 'Tapez un titre, une ligne de paroles ou une référence comme Jean 3:16. Cliquez sur la section voulue et elle se charge dans l’aperçu, que vous seul pouvez voir.',
+      s3_t: 'Passez au direct', s3_b: 'Appuyez sur Take quand le groupe arrive à la ligne. Ce qui était au direct retombe dans l’aperçu : revenir d’une diapositive ne prend qu’une pression au lieu d’une nouvelle recherche.',
+      kbd_all: 'Toutes les touches disponibles', kbd_ref: 'Référence clavier',
+      th_key: 'Touche', th_action: 'Action', th_context: 'Contexte',
+      k1_a: 'Take', k1_b: 'Échange l’aperçu et le direct.',
+      k2_a: 'Refrain', k2_b: 'Prépare le refrain du chant au direct.',
+      k3_a: 'Couplet 1–9', k3_b: 'Saute au couplet numéroté correspondant.',
+      k4_a: 'Pas à pas', k4_b: 'Recule ou avance dans l’arrangement ou le passage.',
+      k5_a: 'QuickFind', k5_b: 'Ouvre la recherche sur tous les chants et l’Écriture.',
+      k6_a: 'Préparer', k6_b: 'Dans QuickFind, charge l’élément dans l’aperçu sans le projeter.',
+      k7_a: 'Envoyer au direct', k7_b: 'Dans QuickFind, projette l’élément directement au direct.',
+      k8_a: 'Écran noir', k8_b: 'Coupe la sortie directe en noir.',
+      k9_a: 'Effacer le texte', k9_b: 'Efface les mots, garde le fond.',
+      k10_a: 'Logo', k10_b: 'Affiche l’écran du logo de l’église.',
+      k11_a: 'Plein écran', k11_b: 'Bascule le plein écran sur les fenêtres projecteur et scène.',
+      k12_a: 'Annuler / Rétablir', k12_b: 'Annule ou restaure les modifications du planning et de la préparation.',
+      th_eyebrow: '04 / Thèmes', th_title: 'Trois styles pour trois types de salles',
+      th_lede: 'Le même espace de travail en trois palettes de couleurs. Changez à tout moment sans redémarrer.',
+      tc1_b: 'Faible éblouissement pour la régie, où un écran lumineux se diffuserait dans la salle.',
+      tc2_b: 'Mode clair à fort contraste pour préparer les services dans un bureau ensoleillé.',
+      tc3_b: 'Texte plus grand et cartes colorées pour les salles de jeunes et les installations mobiles.',
+      pr_eyebrow: '05 / Tarifs', pr_title: 'Payez une fois. Gardez-le.',
+      pr_lede: 'Une licence unique pour votre église. Les mises à jour mineures et les correctifs sont gratuits pour toute la durée de votre version.',
+      pr_plan: 'Licence Kairos', pr_price: 'Prix fixé au lancement', pr_note: 'Paiement unique · licence multi-ordinateurs pour l’église',
+      pr_li1: 'Un seul paiement. Aucun frais mensuel ni annuel.',
+      pr_li2: 'S’installe sur l’ordinateur de la régie et sur le portable du bureau.',
+      pr_li3: 'Toutes les mises à jour mineures et les correctifs sont gratuits.',
+      pr_li4: 'L’accès se fait pour l’instant sur demande — utilisez le formulaire ci-dessous.',
+      upt_cap: 'Comment les mises à jour sont tarifées', upt_h1: 'Mise à jour', upt_h2: 'Exemple', upt_h3: 'Ce qui change', upt_h4: 'Coût',
+      upt_patch: 'Correctif', upt_patch_b: 'Corrections de bugs et stabilité', upt_free: 'Gratuit', upt_free2: 'Gratuit',
+      upt_minor: 'Mineure', upt_minor_b: 'Nouvelles fonctions et traductions bibliques',
+      upt_major: 'Majeure', upt_major_b: 'Une nouvelle génération de Kairos', upt_major_c: 'Mise à niveau à tarif réduit',
+      upt_fine: 'Les détenteurs de licence bénéficient d’une remise importante sur les mises à niveau majeures.',
+      rq_eyebrow: 'Demander l’accès', rq_title: 'Parlez-nous de votre église',
+      rq_lede: 'Kairos est pour l’instant distribué directement aux églises. Parlez-nous de votre équipe et de votre installation et nous vous enverrons l’installeur et les étapes d’activation.',
+      fm_name: 'Votre nom', fm_name_ph: 'Pasteur ou responsable AV', fm_org: 'Église ou organisation', fm_role: 'Votre rôle', fm_choose: 'Choisissez',
+      fm_role1: 'Chef de louange / directeur musical', fm_role2: 'Bénévole média / AV', fm_role3: 'Pasteur principal / enseignant', fm_role4: 'Administrateur d’église', fm_role5: 'Autre personnel de ministère',
+      fm_platform: 'Ordinateur de votre régie', fm_both: 'Les deux',
+      fm_note: 'Votre logiciel de présentation actuel', fm_optional: '(facultatif)', fm_note_ph: 'ProPresenter, EasyWorship, PowerPoint ? Qu’est-ce qui vous gêne ?',
+      fm_consent: 'J’accepte de recevoir l’accès au téléchargement et les courriels d’accompagnement de l’équipe Kairos.', fm_submit: 'Envoyer la demande',
+      next_title: 'Et ensuite ?',
+      next1_t: 'Nous répondons personnellement', next1_b: 'Vous recevez l’installeur pour votre système et une clé d’activation.',
+      next2_t: 'Importez votre bibliothèque', next2_b: 'Les chants ChordPro et texte brut arrivent avec accords et sections intacts.',
+      next3_t: 'Répétez sur les deux écrans', next3_b: 'Testez le projecteur et le moniteur de scène avec votre équipe avant dimanche.',
+      next_contact: 'Des questions d’abord ? Écrivez-nous à',
+      fa_eyebrow: '06 / FAQ', fa_title: 'Questions fréquentes avant de changer',
+      q1_t: 'Comment fonctionne le double affichage ?', q1_b: 'Kairos ouvre une fenêtre séparée pour le projecteur de la salle et une pour le moniteur de scène. Vous choisissez l’écran physique de chacune, et l’application s’en souvient et les rouvre en plein écran.',
+      q2_t: 'Faut-il internet le dimanche matin ?', q2_b: 'Non. Chants, Bibles, plannings et réglages sont sur votre ordinateur. Une coupure de Wi-Fi ne peut pas interrompre le service.',
+      q3_t: 'Le groupe peut-il utiliser un téléphone ou une tablette comme télécommande ?', q3_b: 'Oui. Toute personne sur le Wi-Fi de l’église scanne un code QR et ouvre la télécommande dans le navigateur, en contrôleur ou en moniteur de scène en lecture seule.',
+      q4_t: 'Un nouveau bénévole peut-il l’utiliser sans formation ?', q4_b: 'Oui. La recherche ne touche jamais l’écran, l’aperçu est privé, et une pression sur Espace envoie la diapositive au direct.',
+      q5_t: 'Comment fonctionne la déclaration des droits d’auteur ?', q5_b: 'Chaque chant projeté est inscrit dans un journal d’utilisation. Au moment de la déclaration, exportez le CSV.',
+      q6_t: 'Puis-je importer des fichiers ChordPro et texte ?', q6_b: 'Oui. Les accords, les sections et les doublons sont détectés automatiquement à l’importation.',
+      q7_t: 'Quels systèmes sont pris en charge ?', q7_b: 'Windows 10/11 et macOS, Apple Silicon et Intel. Une version Linux suivra.',
+      q8_t: 'Est-ce un abonnement ?', q8_b: 'Non. Vous payez la licence une fois, et les mises à jour mineures et les correctifs sont gratuits.',
+      ft_verse: '« Le temps est accompli, et le royaume de Dieu est proche. »', ft_ws: 'L’espace de travail', ft_built: 'Réalisé par',
+      err_name: 'Veuillez saisir votre nom.', err_email: 'Veuillez saisir votre adresse courriel.', err_email_bad: 'Veuillez saisir une adresse courriel valide (ex. nom@eglise.org).',
+      err_org: 'Veuillez saisir le nom de votre église ou organisation.', err_role: 'Veuillez choisir votre rôle principal.', err_os: 'Veuillez sélectionner le système utilisé dans votre régie.', err_consent: 'Veuillez cocher cette case pour recevoir votre invitation.',
+      mail_btn: 'Rouvrir le client courriel', mail_title: 'Ouverture de votre application courriel',
+      mail_body: 'Votre demande a été préparée et adressée à {EMAIL}. Si votre client courriel ne s’ouvre pas automatiquement, cliquez sur le bouton ci-dessous pour envoyer votre demande.'
+    }
+  };
+
+  var LANG = (function() {
+    try { return localStorage.getItem('kairos-lang') === 'fr' ? 'fr' : 'en'; } catch (_) { return 'en'; }
+  })();
+
+  function t(key) {
+    var d = STRINGS[LANG] || STRINGS.en;
+    return d[key] != null ? d[key] : (STRINGS.en[key] || '');
+  }
+
+  function applyLang() {
+    document.documentElement.setAttribute('lang', LANG);
+    var dict = STRINGS[LANG] || STRINGS.en;
+    document.querySelectorAll('[data-i18n]').forEach(function(n) {
+      var k = n.getAttribute('data-i18n');
+      if (dict[k] != null) n.textContent = dict[k];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function(n) {
+      var k = n.getAttribute('data-i18n-ph');
+      if (dict[k] != null) n.setAttribute('placeholder', dict[k]);
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function(n) {
+      var k = n.getAttribute('data-i18n-aria');
+      if (dict[k] != null) n.setAttribute('aria-label', dict[k]);
+    });
+    document.querySelectorAll('.lang-toggle button').forEach(function(b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === LANG));
+    });
+  }
+
+  document.querySelectorAll('.lang-toggle button').forEach(function(b) {
+    b.addEventListener('click', function() {
+      LANG = b.getAttribute('data-lang');
+      try { localStorage.setItem('kairos-lang', LANG); } catch (_) {}
+      applyLang();
+    });
+  });
+
+  applyLang();
 
   /* ---- Pricing & Contact Init ---- */
   (function() {
@@ -2441,22 +2476,6 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
 
   render();
 
-  /* ---- Interactive User Manual Tabs ---- */
-  var manualTabs = document.querySelectorAll('.manual-tab');
-  var manualPanes = document.querySelectorAll('.manual-pane');
-
-  manualTabs.forEach(function(tab) {
-    tab.addEventListener('click', function() {
-      manualTabs.forEach(function(t) { t.setAttribute('aria-selected', 'false'); });
-      manualPanes.forEach(function(p) { p.hidden = true; });
-
-      tab.setAttribute('aria-selected', 'true');
-      var targetId = tab.getAttribute('aria-controls');
-      var pane = $(targetId);
-      if (pane) pane.hidden = false;
-    });
-  });
-
   /* ---- Request Access Form Handling ---- */
   var form = $('reqForm'), resultBox = $('resultBox'), sendBtn = $('sendBtn');
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -2482,30 +2501,30 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
     }
     function good(id, fieldId) { setErr(id, '', fieldId); }
 
-    if (!$('f-name').value.trim()) bad('name', 'Please enter your name.', 'f-name');
+    if (!$('f-name').value.trim()) bad('name', t('err_name'), 'f-name');
     else good('name', 'f-name');
 
     var em = $('f-email').value.trim();
-    if (!em) bad('email', 'Please enter your email address.', 'f-email');
-    else if (!EMAIL_RE.test(em)) bad('email', 'Please enter a valid email address (e.g. name@church.org).', 'f-email');
+    if (!em) bad('email', t('err_email'), 'f-email');
+    else if (!EMAIL_RE.test(em)) bad('email', t('err_email_bad'), 'f-email');
     else good('email', 'f-email');
 
-    if (!$('f-org').value.trim()) bad('org', 'Please enter your church or organization name.', 'f-org');
+    if (!$('f-org').value.trim()) bad('org', t('err_org'), 'f-org');
     else good('org', 'f-org');
 
-    if (!$('f-role').value) bad('role', 'Please choose your primary role.', 'f-role');
+    if (!$('f-role').value) bad('role', t('err_role'), 'f-role');
     else good('role', 'f-role');
 
     var os = form.querySelector('input[name="platform"]:checked');
     if (!os) {
-      setErr('os', 'Please select the operating system used in your AV booth.');
+      setErr('os', t('err_os'));
       ok = false;
       if (!first) first = $('f-os-win');
     } else {
       setErr('os', '');
     }
 
-    if (!$('f-consent').checked) bad('consent', 'Please check this box to receive your access invite.', 'f-consent');
+    if (!$('f-consent').checked) bad('consent', t('err_consent'), 'f-consent');
     else good('consent', 'f-consent');
 
     if (first) first.focus();
@@ -2589,12 +2608,12 @@ footer { border-top: 1px solid var(--line); padding-block: 48px; background: var
     extra.style.gap = '10px';
     extra.style.marginTop = '12px';
 
-    var btn = el('a', 'btn btn-primary', 'Open Email Client Again');
+    var btn = el('a', 'btn btn-primary', t('mail_btn'));
     btn.href = mailtoUrl;
     btn.style.justifySelf = 'start';
     extra.appendChild(btn);
 
-    show('ok', 'Opening Your Email Application', 'Your request has been prepared and addressed to ' + recipient + '. If your email client does not open automatically, click the button below to send your request.', extra);
+    show('ok', t('mail_title'), t('mail_body').replace('{EMAIL}', recipient), extra);
   });
 
   ['f-name', 'f-email', 'f-org', 'f-role', 'f-consent'].forEach(function(id) {
